@@ -6,11 +6,11 @@
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:50:41 by anony             #+#    #+#              #
-#    Updated: 2025/07/07 19:45:03 by anony            ###   ########.fr        #
+#    Updated: 2025/07/08 16:22:38 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = minishell.c lexer.c
+FILES = minishell.c lexer.c initialization.c signalhandler.c
 
 OFILES = $(FILES:.c=.o)
 
