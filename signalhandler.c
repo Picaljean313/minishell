@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 16:07:35 by anony             #+#    #+#             */
-/*   Updated: 2025/07/08 16:38:07 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/08 19:59:10 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void ft_handle_sigint(int sig)
     (void)sig;
     
     rl_replace_line("", 0);
+    write(1, "\n", 1);
     rl_on_new_line();
     rl_redisplay();
-    write(1, "\nminishell_oh_yeah$ ", 20);
     return ;
 }
 

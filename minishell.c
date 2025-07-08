@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/08 16:21:23 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/08 20:08:08 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,15 @@ int main (int argc, char **argv, char **envp)
         if (!input)
             break ;
         if (*input != '\0')
+        {
+            i = ft_check(input);
+            if (i != 0)
+            {
+                fprintf(stderr, "minishell: syntax error near invalid operator\n");
+                continue; 
+            }
             add_history(input);
+        }
         free(input);
     }
     rl_clear_history();

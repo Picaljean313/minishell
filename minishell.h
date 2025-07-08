@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/08 16:38:10 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/08 20:10:08 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,24 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-#include <asm/signal.h>
+
+typedef enum e_token_type
+{
+    WORD,
+    STRING,
+    PIPE,
+    REDIR_IN,
+    REDIR_OUT,
+    HEREDOC,
+    APPEND
+} t_token_type;
+
+typedef struct s_token
+{
+    t_token_type type;
+    char *value;
+    struct s_token *next;
+} t_token;
 
 // initialization.c
 
@@ -31,5 +48,12 @@ char **ft_set_env(char **env);
 void ft_handle_sigint(int sig);
 void ft_handle_sigquit(int sig);
 void ft_signal_handler();
+
+// lexer.c
+
+void ft_add_token(t_token **tab, t_token_type type, char *value);
+int ft_check_wrong_operator(char *input);
+int ft_check_wrong_quotes(char *input);
+int ft_check(char *input);
 
 #endif
