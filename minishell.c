@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/08 20:08:08 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/09 18:10:13 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int main (int argc, char **argv, char **envp)
         i++;
     }
     printf("\n\n\n\n%s\n", getenv("PATH"));
-    
     ft_signal_handler();
     
     while (1)
@@ -56,16 +55,22 @@ int main (int argc, char **argv, char **envp)
             break ;
         if (*input != '\0')
         {
-            i = ft_check(input);
-            if (i != 0)
+            i = 0;
+            add_history(input);
+            if (ft_check(input) != 0)
             {
-                fprintf(stderr, "minishell: syntax error near invalid operator\n");
+                if (ft_check(input) == 1)
+                    fprintf(stderr, "Operator error\n");
+                if (ft_check(input) == 2)
+                    fprintf(stderr, "Quotes error\n");
                 continue; 
             }
-            add_history(input);
+            while (i < (int)ft_strlen(input))
+                ft_next_token_value(input, &i);
         }
         free(input);
     }
     rl_clear_history();
     return (0);
 }
+

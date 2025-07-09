@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/08 20:10:08 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/09 17:56:56 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ void ft_signal_handler();
 // lexer.c
 
 void ft_add_token(t_token **tab, t_token_type type, char *value);
-int ft_check_wrong_operator(char *input);
-int ft_check_wrong_quotes(char *input);
+int ft_check_wrong_operator(char *input, int ind);
 int ft_check(char *input);
+char *ft_truncate(char *str, int start, int end);
+char *ft_next_token_value(char *input, int *ind);
 
 #endif
