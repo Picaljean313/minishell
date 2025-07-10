@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/09 17:56:56 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/10 17:25:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 typedef enum e_token_type
 {
     WORD,
-    STRING,
     PIPE,
     REDIR_IN,
     REDIR_OUT,
@@ -37,6 +36,36 @@ typedef struct s_token
     char *value;
     struct s_token *next;
 } t_token;
+
+typedef enum e_redir_type
+{
+    REDIR_IN,
+    REDIR_OUT,
+    REDIR_HEREDOC,
+    REDIR_APPEND
+} t_redir_type;
+
+typedef struct s_redir
+{
+    t_redir_type type;
+    char *file;
+    struct s_redir *next;
+} t_redir;
+
+typedef struct s_pipe_tokens
+{
+    char **tabtokens;
+    struct s_pipe_tokens next;
+} t_pipe_tokens;
+
+typedef struct s_pipe
+{
+    char *cmd;
+    char **args;
+    t_redir *redirin;
+    t_redir *redirout;
+    struct s_pipe *next;
+} t_pipe;
 
 // initialization.c
 
@@ -56,5 +85,8 @@ int ft_check_wrong_operator(char *input, int ind);
 int ft_check(char *input);
 char *ft_truncate(char *str, int start, int end);
 char *ft_next_token_value(char *input, int *ind);
+t_token_type ft_get_token_type(char *value);
+t_token **ft_lexer(char *input);
+void ft_show_tokentab(t_token **tab);
 
 #endif

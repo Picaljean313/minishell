@@ -6,31 +6,12 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:44:51 by anony             #+#    #+#             */
-/*   Updated: 2025/07/09 18:34:39 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/10 14:43:49 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_add_token(t_token **tab, t_token_type type, char *value)
-{
-    t_token *token;
-    t_token *temp;
-
-    token = malloc(sizeof(t_token));
-    token->type = type;
-    token->value = ft_strdup(value);
-    token->next = NULL;
-    if (!*tab)
-        *tab = token;
-    else
-    {
-        temp = *tab;
-        while (temp->next)
-            temp = temp->next;
-        temp->next = token;
-    }
-}
 
 // Faire check seulement hors quotes :
 // int ft_check_wrong_operator(char *input)
@@ -284,8 +265,8 @@ char *ft_next_token_value(char *input, int *ind)
         tokenvalue = "|";
         i++;
         *ind = i;
-        printf("token : %s\n", tokenvalue);
-        printf("i : %d\n", i);
+        // printf("token : %s\n", tokenvalue);
+        // printf("i : %d\n", i);
         return (tokenvalue);
     }
     if (input[i] == '<')
@@ -295,15 +276,15 @@ char *ft_next_token_value(char *input, int *ind)
             tokenvalue = "<<";
             i += 2;
             *ind = i;
-            printf("token : %s\n", tokenvalue);
-            printf("i : %d\n", i);
+            // printf("token : %s\n", tokenvalue);
+            // printf("i : %d\n", i);
             return (tokenvalue);
         }
         tokenvalue = "<";
         i++;
         *ind = i;
-        printf("token : %s\n", tokenvalue);
-        printf("i : %d\n", i);
+        // printf("token : %s\n", tokenvalue);
+        // printf("i : %d\n", i);
         return (tokenvalue);
     }
     if (input[i] == '>')
@@ -313,15 +294,15 @@ char *ft_next_token_value(char *input, int *ind)
             tokenvalue = ">>";
             i += 2;
             *ind = i;
-            printf("token : %s\n", tokenvalue);
-            printf("i : %d\n", i);
+            // printf("token : %s\n", tokenvalue);
+            // printf("i : %d\n", i);
             return (tokenvalue);
         }
         tokenvalue = ">";
         i++;
         *ind = i;
-        printf("token : %s\n", tokenvalue);
-        printf("i : %d\n", i);
+        // printf("token : %s\n", tokenvalue);
+        // printf("i : %d\n", i);
         return (tokenvalue);
     }
         
@@ -337,13 +318,79 @@ char *ft_next_token_value(char *input, int *ind)
         return NULL;
     *ind = i;
     tokenvalue = ft_truncate(input, start, end);
-    printf("token : %s\n", tokenvalue);
-    printf("i : %d\n", i);
+    // printf("token : %s\n", tokenvalue);
+    // printf("i : %d\n", i);
     return (tokenvalue);
 }
 
+void ft_add_token(t_token **tab, t_token_type type, char *value)
+{
+    t_token *token;
+    t_token *temp;
 
+    token = malloc(sizeof(t_token));
+    token->type = type;
+    token->value = ft_strdup(value);
+    token->next = NULL;
+    if (!*tab)
+        *tab = token;
+    else
+    {
+        temp = *tab;
+        while (temp->next)
+            temp = temp->next;
+        temp->next = token;
+    }
+}
 
+t_token_type ft_get_token_type(char *value)
+{
+    if (ft_strncmp(value, "|", 1) == 0)
+        return (PIPE);
+    if (ft_strncmp(value, "<<", 2) == 0)
+        return (HEREDOC);
+    if (ft_strncmp(value, ">>", 2) == 0)
+        return (APPEND);
+    if (ft_strncmp(value, "<", 1) == 0)
+        return (REDIR_IN);
+    if (ft_strncmp(value, ">", 1) == 0)
+        return (REDIR_OUT);
+    else
+        return (WORD);
+}
+
+t_token **ft_lexer(char *input)
+{
+    t_token **tokentab;
+    char *value;
+    t_token_type tokentype;
+    int ind;
+
+    tokentab = malloc (sizeof(t_token **));
+    *tokentab = NULL;
+    ind = 0;
+    while (ind < (int)ft_strlen(input))
+    {
+        value = ft_next_token_value(input, &ind);
+        tokentype = ft_get_token_type(value);
+        ft_add_token(tokentab, tokentype, value);
+    }
+    return (tokentab);
+}
+
+void ft_show_tokentab(t_token **tab)
+{
+    t_token *token;
+
+    token = *tab;
+    while (token)
+    {
+        printf("enum : %d\n", token->type);
+        printf("value : %s\n", token->value);
+        token = token->next;
+    }
+    return ;
+}
 
 
 // int ft_check(char *input)

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/09 18:10:13 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/10 13:27:14 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ int main (int argc, char **argv, char **envp)
                     fprintf(stderr, "Quotes error\n");
                 continue; 
             }
-            while (i < (int)ft_strlen(input))
-                ft_next_token_value(input, &i);
+            // while (i < (int)ft_strlen(input))
+            //     ft_next_token_value(input, &i);
+            ft_show_tokentab(ft_lexer(input));
         }
         free(input);
     }
