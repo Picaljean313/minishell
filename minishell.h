@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/11 16:44:58 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:18:34 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef enum e_token_type
     PIPE,
     REDIR_IN,
     REDIR_OUT,
-    HEREDOC,
-    APPEND
+    REDIR_HEREDOC,
+    REDIR_APPEND
 } t_token_type;
 
 typedef struct s_token
@@ -45,12 +45,12 @@ typedef struct s_token
 //     REDIR_APPEND
 // } t_redir_type;
 
-// typedef struct s_redir
-// {
-//     t_redir_type type;
-//     char *file;
-//     struct s_redir *next;
-// } t_redir;
+typedef struct s_redir
+{
+    t_token_type type;
+    char *file;
+    struct s_redir *next;
+} t_redir;
 
 // typedef struct s_pipe_tokens
 // {
@@ -58,14 +58,14 @@ typedef struct s_token
 //     struct s_pipe_tokens next;
 // } t_pipe_tokens;
 
-// typedef struct s_pipe
-// {
-//     char *cmd;
-//     char **args;
-//     t_redir *redirin;
-//     t_redir *redirout;
-//     struct s_pipe *next;
-// } t_pipe;
+typedef struct s_pipe
+{
+    char *cmd;
+    char **args;
+    t_redir *redirin;
+    t_redir *redirout;
+    struct s_pipe *next;
+} t_pipe;
 
 // initialization.c
 

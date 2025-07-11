@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:44:51 by anony             #+#    #+#             */
-/*   Updated: 2025/07/11 17:10:50 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:22:51 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,9 +338,9 @@ t_token_type ft_get_token_type(char *value)
     if (ft_strncmp(value, "|", 1) == 0)
         return (PIPE);
     if (ft_strncmp(value, "<<", 2) == 0)
-        return (HEREDOC);
+        return (REDIR_HEREDOC);
     if (ft_strncmp(value, ">>", 2) == 0)
-        return (APPEND);
+        return (REDIR_APPEND);
     if (ft_strncmp(value, "<", 1) == 0)
         return (REDIR_IN);
     if (ft_strncmp(value, ">", 1) == 0)

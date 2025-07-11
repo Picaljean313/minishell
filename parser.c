@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 14:48:50 by anony             #+#    #+#             */
-/*   Updated: 2025/07/11 17:10:47 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/11 21:07:25 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,92 @@ int ft_check_pipes(t_token **tab)
         token = token->next;
     }
     return (0);
+}
+
+
+
+int ft_add_cmd(t_token *token, t_pipe *pipe)
+{
+    (void)token;
+    (void)pipe;
+    return (0);
+}
+
+int ft_add_redir(t_token *token, t_pipe *pipe)
+{
+    (void)token;
+    (void)pipe;
+    return (0);
+}
+
+int ft_add_arg(t_token *token, char **args, t_pipe *pipe)
+{
+    (void)token;
+    (void)pipe;
+    (void)args;
+    return (0);
+}
+
+
+
+
+int ft_fill_pipe(t_token *token, t_pipe **pipetab)
+{
+    char **args;
+    t_pipe *pipe;
+    int cmd;
+
+    if (!token || !pipetab)
+        return (1);
+    args = malloc(sizeof(char *));
+    if (!args)
+        return (1);
+    args[0] = NULL;
+    pipe = malloc(sizeof(t_pipe));
+    cmd = 0;
+    while (token->type != PIPE)
+    {
+        if (token->type == WORD && cmd ==0)
+        {
+            if (ft_add_cmd(token, pipe) != 0)
+                return (1);
+            cmd = 1;
+        }
+        else if (token->type == WORD && cmd == 1)
+        {
+            if (ft_add_arg(token, args, pipe) != 0)
+                return (1);
+        }
+        else
+        {
+            if (ft_add_redir(token, pipe) != 0)
+                return (1);
+            token = token->next;
+        }
+        token = token->next;
+        if (!token)
+            break;
+    }
+    return (0);
+}
+
+t_pipe **ft_parser(t_token **tokentab)
+{
+    t_pipe **pipetab;
+    t_token *token;
+
+    pipetab = malloc (sizeof(t_pipe));
+    if (!pipetab)
+        return NULL;
+    token = *tokentab;
+    if (!token)
+        return NULL;
+    while (token)
+    {
+        ft_fill_pipe(token, pipetab);
+        while (token->next && token->type != PIPE)
+           token = token->next;
+        token = token->next;
+    }
+    return (pipetab);
 }
