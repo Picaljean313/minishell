@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:44:51 by anony             #+#    #+#             */
-/*   Updated: 2025/07/10 14:43:49 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:10:50 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int ft_check(char *input)
             {
                 sq = 0;
                 dq = 0;
-                last = '\0';
+                last = 0;
             }
         }
         if (input[i] == '\"')
@@ -140,13 +140,13 @@ int ft_check(char *input)
             else if (sq == 1 && dq == 1 && last == '\"')
             {
                 dq = 0;
-                last = '\0';
+                last = 0;
             }
             else if (sq == 1 && dq == 1 && last == '\'')
             {
                 sq = 0;
                 dq = 0;
-                last = '\0';
+                last = 0;
             }
         }
         i++;
@@ -255,18 +255,18 @@ char *ft_next_token_value(char *input, int *ind)
 
     i = *ind;
     if (i >= (int)ft_strlen(input))
-        return NULL;
+        return (NULL);
     
-    while (input[i] == ' ')
+    while (input[i] == ' ' || (input[i] >= 9 && input[i] <= 13))
         i++;
+    if (!input[i])
+        return (*ind = i, NULL);
     start = i;
     if (input[i] == '|')
     {
         tokenvalue = "|";
         i++;
         *ind = i;
-        // printf("token : %s\n", tokenvalue);
-        // printf("i : %d\n", i);
         return (tokenvalue);
     }
     if (input[i] == '<')
@@ -276,15 +276,11 @@ char *ft_next_token_value(char *input, int *ind)
             tokenvalue = "<<";
             i += 2;
             *ind = i;
-            // printf("token : %s\n", tokenvalue);
-            // printf("i : %d\n", i);
             return (tokenvalue);
         }
         tokenvalue = "<";
         i++;
         *ind = i;
-        // printf("token : %s\n", tokenvalue);
-        // printf("i : %d\n", i);
         return (tokenvalue);
     }
     if (input[i] == '>')
@@ -294,32 +290,26 @@ char *ft_next_token_value(char *input, int *ind)
             tokenvalue = ">>";
             i += 2;
             *ind = i;
-            // printf("token : %s\n", tokenvalue);
-            // printf("i : %d\n", i);
             return (tokenvalue);
         }
         tokenvalue = ">";
         i++;
         *ind = i;
-        // printf("token : %s\n", tokenvalue);
-        // printf("i : %d\n", i);
         return (tokenvalue);
     }
         
     while (input[i])
     {
         quotes = ft_is_quote_active(input, i);
-        if (quotes == 0 && (input[i] == '|' || input[i] == '<' || input[i] == '>' || input[i] == ' '))
+        if (quotes == 0 && (input[i] == '|' || input[i] == '<' || input[i] == '>' || input[i] == ' ' || (input[i] >= 9 && input[i] <= 13)))
             break ;
         i++;
     }
     end = i - 1;
     if (end < start)
-        return NULL;
+        return (*ind = i,  NULL);
     *ind = i;
     tokenvalue = ft_truncate(input, start, end);
-    // printf("token : %s\n", tokenvalue);
-    // printf("i : %d\n", i);
     return (tokenvalue);
 }
 
@@ -372,6 +362,8 @@ t_token **ft_lexer(char *input)
     while (ind < (int)ft_strlen(input))
     {
         value = ft_next_token_value(input, &ind);
+        if (!value)
+            break;
         tokentype = ft_get_token_type(value);
         ft_add_token(tokentab, tokentype, value);
     }
