@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/11 17:18:34 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/14 16:15:22 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,12 @@ typedef struct s_token
     struct s_token *next;
 } t_token;
 
-// typedef enum e_redir_type
-// {
-//     REDIR_IN,
-//     REDIR_OUT,
-//     REDIR_HEREDOC,
-//     REDIR_APPEND
-// } t_redir_type;
-
 typedef struct s_redir
 {
     t_token_type type;
     char *file;
     struct s_redir *next;
 } t_redir;
-
-// typedef struct s_pipe_tokens
-// {
-//     char **tabtokens;
-//     struct s_pipe_tokens next;
-// } t_pipe_tokens;
 
 typedef struct s_pipe
 {
@@ -94,5 +80,8 @@ void ft_show_tokentab(t_token **tab);
 int ft_check_empty_pipes(t_token **tab);
 int ft_check_pipe(t_token *token);
 int ft_check_pipes(t_token **tab);
+int ft_add_arg(t_token *token, t_pipe *pipe);
+int ft_fill_pipe(t_token *token, t_pipe **pipetab);
+t_pipe **ft_parser(t_token **tokentab);
 
 #endif

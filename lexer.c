@@ -6,65 +6,11 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:44:51 by anony             #+#    #+#             */
-/*   Updated: 2025/07/11 17:22:51 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/14 16:09:15 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-// Faire check seulement hors quotes :
-// int ft_check_wrong_operator(char *input)
-// {
-//     size_t len;
-
-//     len = ft_strlen(input);
-//     if (ft_strnstr(input, "||", len) != NULL)
-//         return (1);
-//     if (ft_strnstr(input, "<<<", len) != NULL)
-//         return (1);
-//     if (ft_strnstr(input, ">>>", len) != NULL)
-//         return (1);
-//     return (0);
-// }
-
-// PAS VIABLE :
-// int ft_check_wrong_quotes(char *input)
-// {
-//     char **split_pipe;
-//     int i;
-//     int j;
-//     int count1;
-//     int count2;
-
-//     split_pipe = ft_split(input, '|');
-//     i = 0;
-//     count1 = 0;
-//     count2 = 0;
-//     while (split_pipe[i])
-//     {
-//         j = 0;
-//         while (split_pipe[i][j])
-//         {
-//             if (split_pipe[i][j] == '\'')
-//                 count1++;
-//             if (split_pipe[i][j] == '\"')
-//                 count2++;
-//             j++;
-//         }
-//         if (count1 % 2 == 1 || count2 % 2 == 1)
-//             return (1);
-//         i++;
-//     }
-//     i = 0;
-//     while (split_pipe[i])
-//     {
-//         free(split_pipe[i]);
-//         i++;
-//     }
-//     free(split_pipe);
-//     return (0);
-// }
 
 int ft_check_wrong_operator(char *input, int ind)
 {
@@ -227,11 +173,25 @@ int ft_is_quote_active(char *input, int ind)
 char *ft_truncate(char *str, int start, int end)
 {
     char *strtrunc;
+    char quote;
     int i;
     
     if (start < 0 || start > end || end > (int)ft_strlen(str) - 1)
         return NULL;
-    strtrunc = malloc ((end - start + 2) * sizeof(char));
+    if (str[start] == '\'')
+        quote = '\'';
+    else if (str[start] == '\"')
+        quote = '\"';
+    else
+        quote = '\0';
+    if (quote == '\0')
+        strtrunc = malloc ((end - start + 2) * sizeof(char));
+    else
+    {
+        start++;
+        end--;
+        strtrunc = malloc ((end - start + 2) * sizeof(char));
+    }
     if (strtrunc == NULL)
         return NULL;
     i = 0;

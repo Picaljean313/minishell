@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/11 17:10:48 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/14 13:40:00 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int main (int argc, char **argv, char **envp)
             ft_show_tokentab(tab);
             i = ft_check_pipes(tab);
             printf("check pipes : %d\n", i);
+            ft_parser(tab);
         }
         free(input);
     }
