@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 14:48:50 by anony             #+#    #+#             */
-/*   Updated: 2025/07/14 15:47:22 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/14 17:37:27 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ int ft_add_arg(t_token *token, t_pipe *pipe)
     i = 0;
     while (i < len)
     {
-        args[i] = pipe->args[i];
+        args[i] = ft_strdup(pipe->args[i]);
+        free(pipe->args[i]);
         i++;
     }
     args[i] = ft_strdup(token->value);
@@ -178,6 +179,8 @@ void ft_check_args(t_pipe *pipe)
     int i;
 
     i = 0;
+    if (!pipe->args)
+        return ;
     while (pipe->args[i])
     {
         printf("%d : %s\n", i, pipe->args[i]);
