@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/14 17:26:31 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/15 16:57:28 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Toujours verifier si une variable d environnement existe et penser a la creer si
 mettre le dossier dans lequel on se situe dans le prompt
 */
 
+int exitstatus;
 
 int main (int argc, char **argv, char **envp)
 {
@@ -75,6 +76,8 @@ int main (int argc, char **argv, char **envp)
             i = ft_check_pipes(tab);
             printf("check pipes : %d\n", i);
             ft_parser(tab);
+            printf("-------\n");
+            ft_expand(tab);
         }
         free(input);
     }

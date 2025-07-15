@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/14 16:15:22 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/15 13:17:23 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,10 @@ int ft_check_pipes(t_token **tab);
 int ft_add_arg(t_token *token, t_pipe *pipe);
 int ft_fill_pipe(t_token *token, t_pipe **pipetab);
 t_pipe **ft_parser(t_token **tokentab);
+
+
+// expand.c
+
+int ft_expand(t_token **tokentab);
 
 #endif

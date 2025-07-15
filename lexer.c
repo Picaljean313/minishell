@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:44:51 by anony             #+#    #+#             */
-/*   Updated: 2025/07/14 17:26:53 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/15 13:06:24 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,25 +173,11 @@ int ft_is_quote_active(char *input, int ind)
 char *ft_truncate(char *str, int start, int end)
 {
     char *strtrunc;
-    char quote;
     int i;
     
     if (start < 0 || start > end || end > (int)ft_strlen(str) - 1)
         return NULL;
-    if (str[start] == '\'')
-        quote = '\'';
-    else if (str[start] == '\"')
-        quote = '\"';
-    else
-        quote = '\0';
-    if (quote == '\0')
-        strtrunc = malloc ((end - start + 2) * sizeof(char));
-    else
-    {
-        start++;
-        end--;
-        strtrunc = malloc ((end - start + 2) * sizeof(char));
-    }
+    strtrunc = malloc ((end - start + 2) * sizeof(char));
     if (strtrunc == NULL)
         return NULL;
     i = 0;
@@ -204,6 +190,41 @@ char *ft_truncate(char *str, int start, int end)
     strtrunc[i] = '\0';
     return (strtrunc);
 }
+
+// char *ft_truncate(char *str, int start, int end)
+// {
+//     char *strtrunc;
+//     char quote;
+//     int i;
+    
+//     if (start < 0 || start > end || end > (int)ft_strlen(str) - 1)
+//         return NULL;
+//     if (str[start] == '\'')
+//         quote = '\'';
+//     else if (str[start] == '\"')
+//         quote = '\"';
+//     else
+//         quote = '\0';
+//     if (quote == '\0')
+//         strtrunc = malloc ((end - start + 2) * sizeof(char));
+//     else
+//     {
+//         start++;
+//         end--;
+//         strtrunc = malloc ((end - start + 2) * sizeof(char));
+//     }
+//     if (strtrunc == NULL)
+//         return NULL;
+//     i = 0;
+//     while (start <= end)
+//     {
+//         strtrunc[i] = str[start];
+//         start++;
+//         i++;
+//     }
+//     strtrunc[i] = '\0';
+//     return (strtrunc);
+// }
 
 char *ft_next_token_value(char *input, int *ind)
 {
