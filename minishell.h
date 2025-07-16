@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/15 13:17:23 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/16 15:42:19 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ typedef struct s_pipe
 {
     char *cmd;
     char **args;
+    t_token *token;
     t_redir *redirin;
     t_redir *redirout;
     struct s_pipe *next;
 } t_pipe;
+
+extern int g_exitstatus;
 
 // initialization.c
 
