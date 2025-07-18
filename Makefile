@@ -6,29 +6,25 @@
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:50:41 by anony             #+#    #+#              #
-#    Updated: 2025/07/14 17:40:37 by anony            ###   ########.fr        #
+#    Updated: 2025/07/18 12:37:36 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = minishell.c lexer.c initialization.c signalhandler.c parser.c expander.c
+FILES = minishell.c initshell.c cleanshell.c utils.c
 
 OFILES = $(FILES:.c=.o)
 
-# LIBFT_DIR = libft\\ 
 LIBFT_DIR = libft
 
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
 
-# CC = gcc
 CC = cc
 
-# RM = del /f /q
 RM = rm -f
 
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline
 
-# NAME = minishell.exe
 NAME = minishell
 
 all : $(NAME)

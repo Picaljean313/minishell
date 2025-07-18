@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/16 15:42:19 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/18 12:55:58 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,76 +20,65 @@
 # include <readline/history.h>
 # include <signal.h>
 
+extern int	g_signal;
+
 typedef enum e_token_type
 {
-    WORD,
-    PIPE,
-    REDIR_IN,
-    REDIR_OUT,
-    REDIR_HEREDOC,
-    REDIR_APPEND
-} t_token_type;
+	WORD,
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_HEREDOC,
+	REDIR_APPEND
+}	t_token_type;
 
 typedef struct s_token
 {
-    t_token_type type;
-    char *value;
-    struct s_token *next;
-} t_token;
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_redir
 {
-    t_token_type type;
-    char *file;
-    struct s_redir *next;
-} t_redir;
+	t_token_type	type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
 
 typedef struct s_pipe
 {
-    char *cmd;
-    char **args;
-    t_token *token;
-    t_redir *redirin;
-    t_redir *redirout;
-    struct s_pipe *next;
-} t_pipe;
+	char			*cmd;
+	char			**args;
+	t_token			*token;
+	t_redir			*redirin;
+	t_redir			*redirout;
+	struct s_pipe	*next;
+}	t_pipe;
 
-extern int g_exitstatus;
+typedef struct s_shell
+{
+	char	*input;
+	char	**env;
+	t_token	**tokens;
+	t_pipe	**pipes;
+	int		exitcode;
+}	t_shell;
 
-// initialization.c
+// initshell.c
 
-void ft_set_shlvl(char **env);
-char **ft_set_env(char **env);
+void	ft_init_shell(t_shell *shell, char **envp);
+int	ft_set_shlvl(char **env);
+void	ft_free_env_ind(char **env, int ind);
+char	**ft_set_env(char **env);
 
-// signalhandler.c
+// cleanshell.c
 
-void ft_handle_sigint(int sig);
-void ft_handle_sigquit(int sig);
-void ft_signal_handler();
+void ft_free_env(char ***env);
+void ft_clean_shell(t_shell *shell);
 
-// lexer.c
+// utils.c
 
-void ft_add_token(t_token **tab, t_token_type type, char *value);
-int ft_check_wrong_operator(char *input, int ind);
-int ft_check(char *input);
-char *ft_truncate(char *str, int start, int end);
-char *ft_next_token_value(char *input, int *ind);
-t_token_type ft_get_token_type(char *value);
-t_token **ft_lexer(char *input);
-void ft_show_tokentab(t_token **tab);
-
-// parser.c
-
-int ft_check_empty_pipes(t_token **tab);
-int ft_check_pipe(t_token *token);
-int ft_check_pipes(t_token **tab);
-int ft_add_arg(t_token *token, t_pipe *pipe);
-int ft_fill_pipe(t_token *token, t_pipe **pipetab);
-t_pipe **ft_parser(t_token **tokentab);
-
-
-// expand.c
-
-int ft_expand(t_token **tokentab);
+char *ft_getenv(char *var, char **env);
 
 #endif
