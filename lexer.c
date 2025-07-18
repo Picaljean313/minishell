@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:41:36 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 17:54:37 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:49:24 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,23 @@ int ft_add_token(t_token **tab, t_token_type type, char *value)
     return (0);
 }
 
-t_token **ft_lexer(char *input)
+t_token **ft_lexer(t_shell *shell)
 {
     t_token **tokentab;
     char *value;
     t_token_type tokentype;
     int ind;
 
-    if (!input)
+    if (!shell->input)
         return (NULL);
     tokentab = malloc (sizeof(t_token **));
     if (!tokentab)
         return (NULL);
     *tokentab = NULL;
     ind = 0;
-    while (ind < (int)ft_strlen(input))
+    while (ind < (int)ft_strlen(shell->input))
     {
-        value = ft_next_token_value(input, &ind);
+        value = ft_next_token_value(shell->input, &ind);
         if (!value)
             return (NULL);
         if (ft_strncmp("", value, 1) == 0)

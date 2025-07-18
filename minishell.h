@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 18:12:15 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:49:32 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void ft_signal_handler();
 char *ft_next_token_value(char *input, int *ind);
 t_token_type ft_get_token_type(char *value);
 int ft_add_token(t_token **tab, t_token_type type, char *value);
-t_token **ft_lexer(char *input);
+t_token **ft_lexer(t_shell *shell);
 
 // nexttokenvalueutils.c
 

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 17:56:29 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:49:49 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int main (int argc, char **argv, char **envp)
         if (!shell.input)
             break ;
         add_history(shell.input);
-        shell.tokens = ft_lexer(shell.input);
+        shell.tokens = ft_lexer(&shell);
         if (!shell.tokens)
             break ;
 
