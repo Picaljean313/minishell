@@ -6,11 +6,11 @@
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:50:41 by anony             #+#    #+#              #
-#    Updated: 2025/07/18 12:37:36 by anony            ###   ########.fr        #
+#    Updated: 2025/07/18 17:41:16 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = minishell.c initshell.c cleanshell.c utils.c
+FILES = minishell.c initshell.c setenv.c cleanshell.c utils.c signal.c lexer.c nexttokenvalue.c isquoteactive.c
 
 OFILES = $(FILES:.c=.o)
 

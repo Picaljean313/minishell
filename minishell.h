@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 12:55:58 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/18 18:12:15 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,50 @@ typedef struct s_shell
 
 // initshell.c
 
-void	ft_init_shell(t_shell *shell, char **envp);
+int ft_check_params(int argc, char **argv, char **env);
+int	ft_init_shell(t_shell *shell, char **envp);
+
+// setenv.c
+
 int	ft_set_shlvl(char **env);
-void	ft_free_env_ind(char **env, int ind);
 char	**ft_set_env(char **env);
 
 // cleanshell.c
 
-void ft_free_env(char ***env);
+void ft_free_env(char **env);
+void ft_free_token_tab(t_token **tokentab);
 void ft_clean_shell(t_shell *shell);
 
 // utils.c
 
+char *ft_truncate(char *str, int start, int end);
 char *ft_getenv(char *var, char **env);
+int ft_is_quote_active(char *input, int ind);
+
+// signal.c
+
+void ft_handle_sigint(int sig);
+void ft_handle_sigquit(int sig);
+void ft_signal_handler();
+
+// lexer.c
+
+char *ft_next_token_value(char *input, int *ind);
+t_token_type ft_get_token_type(char *value);
+int ft_add_token(t_token **tab, t_token_type type, char *value);
+t_token **ft_lexer(char *input);
+
+// nexttokenvalueutils.c
+
+int ft_handle_pipe_token(char *input, int *ind, char **tokenvalueadress);
+int ft_handle_redirin_token(char *input, int *ind, char **tokenvalueadress);
+int ft_handle_redirout_token(char *input, int *ind, char **tokenvalueadress);
+int ft_handle_no_word_token(char *input, int *ind, char **tokenvalueadress);
+int ft_handle_word_token(char *input, int *ind, char **tokenvalueadress);
+
+// isquoteactive.c
+
+void ft_handle_simple_quote(int *sq, int *dq, int *last);
+void ft_handle_double_quote(int *sq, int *dq, int *last);
 
 #endif

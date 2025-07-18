@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 12:48:07 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/18 17:56:29 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 
 
 int g_signal = 0;
+
+
+
+void ft_show_tokentab(t_token **tab)
+{
+    t_token *token;
+
+    token = *tab;
+    while (token)
+    {
+        printf("enum : %d\n", token->type);
+        printf("value : %s\n", token->value);
+        token = token->next;
+    }
+    return ;
+}
+
 
 int main (int argc, char **argv, char **envp)
 {
@@ -23,9 +40,32 @@ int main (int argc, char **argv, char **envp)
     
     int i;
     
+    if (ft_check_params(argc, argv, envp) != 0)
+        return (2);
+    if (ft_init_shell(&shell, envp) != 0)
+        return (2);
+    ft_signal_handler();
+    while (1)
+    {
+        shell.input = readline("minishell_oh_yeah$ ");
+        if (!shell.input)
+            break ;
+        add_history(shell.input);
+        shell.tokens = ft_lexer(shell.input);
+        if (!shell.tokens)
+            break ;
+
+        ft_show_tokentab(shell.tokens);
+
+        
+
+    }
+    rl_clear_history();
+    return (shell.exitcode);
+
+
 
     
-    ft_init_shell(&shell, envp);
     i = 0;
     while (shell.env[i])
     {
@@ -39,13 +79,18 @@ int main (int argc, char **argv, char **envp)
     
 
     
-    (void)argc;
-    (void)argv;
-
 }
 
 
 
+/*
+Succès	0
+Commande introuvable	127
+Permission refusée	126
+Mauvaise syntaxe (parse error)	2 (souvent)
+Échec d’une commande normale	1
+Signaux (ex: SIGINT)	128 + N (N = numéro du signal)
+*/
 
 
 
