@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/21 15:14:37 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/21 17:57:43 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int main (int argc, char **argv, char **envp)
         shell.tokens = ft_lexer(&shell);
         if (!shell.tokens)
             break ;
+        if (ft_check_pipes(shell.tokens) != 0)
+            printf("\n\n\nbouh\n\n\n");
             
         ft_show_tokentab(shell.tokens);
 

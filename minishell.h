@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/21 17:26:43 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/21 17:53:39 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,11 @@ int ft_handle_var_exit_status(char **adress, t_varlimits *varlim);
 char *ft_get_var_value(char **adress, t_varlimits *varlim, char **env);
 void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, char **env);
 int ft_handle_var(char **adress, t_varlimits *varlim, char **env);
+
+// checkpipes.c
+
+int ft_check_empty_pipe(t_token **tab);
+int ft_check_pipe(t_token *token);
+int ft_check_pipes(t_token **tab);
 
 #endif
