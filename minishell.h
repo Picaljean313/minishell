@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 18:49:32 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/21 17:26:43 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ typedef struct s_shell
 	int		exitcode;
 }	t_shell;
 
+typedef struct s_varlimits
+{
+	int start;
+	int end;
+} t_varlimits;
+
 // initshell.c
 
 int ft_check_params(int argc, char **argv, char **env);
@@ -112,5 +118,23 @@ int ft_handle_word_token(char *input, int *ind, char **tokenvalueadress);
 
 void ft_handle_simple_quote(int *sq, int *dq, int *last);
 void ft_handle_double_quote(int *sq, int *dq, int *last);
+int ft_is_quote_active(char *input, int ind);
+int ft_is_simple_quote_active(char *input, int ind);
+
+// replacevars.c
+
+int ft_handle_exit_and_var(t_shell *shell, int *ind);
+int ft_replace_vars(t_shell *shell);
+
+// exitvar.c
+
+void ft_fill_new_value_exit(char **adress, t_varlimits *varlim, char **newvalue);
+int ft_handle_var_exit_status(char **adress, t_varlimits *varlim);
+
+// envvar.c
+
+char *ft_get_var_value(char **adress, t_varlimits *varlim, char **env);
+void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, char **env);
+int ft_handle_var(char **adress, t_varlimits *varlim, char **env);
 
 #endif
