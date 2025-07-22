@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/21 17:53:39 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/22 17:59:16 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,24 +123,50 @@ int ft_is_simple_quote_active(char *input, int ind);
 
 // replacevars.c
 
-int ft_handle_exit_and_var(t_shell *shell, int *ind);
-int ft_replace_vars(t_shell *shell);
+int ft_handle_exit_and_var(char **valad, int *ind, char **env);
+int ft_replace_vars(char **valad, t_shell *shell);
 
 // exitvar.c
 
-void ft_fill_new_value_exit(char **adress, t_varlimits *varlim, char **newvalue);
-int ft_handle_var_exit_status(char **adress, t_varlimits *varlim);
+void ft_fill_new_value_exit(char **valad, t_varlimits *varlim, char **newvalue);
+int ft_handle_var_exit_status(char **valad, t_varlimits *varlim);
 
 // envvar.c
 
-char *ft_get_var_value(char **adress, t_varlimits *varlim, char **env);
-void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, char **env);
-int ft_handle_var(char **adress, t_varlimits *varlim, char **env);
+char *ft_get_var_value(char **valad, t_varlimits *varlim, char **env);
+void ft_fill_new_value_var(char **valad, t_varlimits *varlim, char **newvalue, char **env);
+int ft_handle_var(char **valad, t_varlimits *varlim, char **env);
 
 // checkpipes.c
 
 int ft_check_empty_pipe(t_token **tab);
 int ft_check_pipe(t_token *token);
 int ft_check_pipes(t_token **tab);
+
+// expand.c
+
+int ft_expand(t_shell *shell);
+
+// removequotes.c
+
+int ft_handle_quote(char **valueadress, int start, int end);
+int ft_remove_quotes(char **valad);
+
+// parser.c
+
+t_pipe **ft_parser(t_token **tokentab);
+
+// fillpipe.c
+
+int ft_init_pipe(t_pipe *pipe);
+int ft_fill_pipe_bis(t_token *token, t_pipe *pipe);
+int ft_fill_pipe(t_token *token, t_pipe **pipetab);
+
+// argsredirs.c
+
+void ft_add_redirin(t_redir *redir, t_token *token, t_pipe *pipe);
+void ft_add_redirout(t_redir *redir, t_token *token, t_pipe *pipe);
+int ft_add_redir(t_token *token, t_pipe *pipe);
+int ft_add_arg(t_token *token, t_pipe *pipe);
 
 #endif

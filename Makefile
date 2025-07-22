@@ -6,11 +6,11 @@
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/07 13:50:41 by anony             #+#    #+#              #
-#    Updated: 2025/07/21 17:54:07 by anony            ###   ########.fr        #
+#    Updated: 2025/07/22 17:59:47 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = minishell.c initshell.c setenv.c cleanshell.c utils.c signal.c lexer.c nexttokenvalue.c isquoteactive.c replacevars.c exitvar.c envvar.c checkpipes.c
+FILES = minishell.c initshell.c setenv.c cleanshell.c utils.c signal.c lexer.c nexttokenvalue.c isquoteactive.c replacevars.c exitvar.c envvar.c checkpipes.c expand.c removequotes.c parser.c fillpipe.c argsredirs.c
 
 OFILES = $(FILES:.c=.o)
 

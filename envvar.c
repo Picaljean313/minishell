@@ -6,20 +6,20 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:24:36 by anony             #+#    #+#             */
-/*   Updated: 2025/07/21 17:25:11 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/22 16:32:52 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_get_var_value(char **adress, t_varlimits *varlim, char **env)
+char *ft_get_var_value(char **valad, t_varlimits *varlim, char **env)
 {
     char *value;
     char *var;
     char *varvalue;
     int i;
     
-    value = *adress;
+    value = *valad;
     if (varlim->end - varlim->start == 0)
         var = ft_strdup("");
     else
@@ -40,7 +40,7 @@ char *ft_get_var_value(char **adress, t_varlimits *varlim, char **env)
     return (varvalue);
 }
 
-void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, char **env)
+void ft_fill_new_value_var(char **valad, t_varlimits *varlim, char **newvalue, char **env)
 {
     char *varvalue;
     int i;
@@ -48,9 +48,9 @@ void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, 
     
     i = -1;
     j = 0;
-    varvalue = ft_get_var_value(adress, varlim, env);
+    varvalue = ft_get_var_value(valad, varlim, env);
     while (++i < varlim->start)
-        (*newvalue)[i] = (*adress)[i];
+        (*newvalue)[i] = (*valad)[i];
     while (varvalue[j])
     {
         (*newvalue)[i] = varvalue[j];
@@ -58,9 +58,9 @@ void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, 
         j++;
     }
     j = varlim->end + 1;
-    while ((*adress)[j])
+    while ((*valad)[j])
     {
-        (*newvalue)[i] = (*adress)[j];
+        (*newvalue)[i] = (*valad)[j];
         i++;
         j++;
     }
@@ -68,25 +68,25 @@ void ft_fill_new_value_var(char **adress, t_varlimits *varlim, char **newvalue, 
     free(varvalue);
 }
 
-int ft_handle_var(char **adress, t_varlimits *varlim, char **env)
+int ft_handle_var(char **valad, t_varlimits *varlim, char **env)
 {
     char *varvalue;
     char *newvalue;
     int newlen;
     int offset;
 
-    varvalue = ft_get_var_value(adress, varlim, env);
+    varvalue = ft_get_var_value(valad, varlim, env);
     if (!varvalue)
         return (1);
     offset = (int)ft_strlen(varvalue) - (varlim->end - varlim->start + 1);
     free(varvalue);
-    newlen = (int)ft_strlen(*adress) + offset;
+    newlen = (int)ft_strlen(*valad) + offset;
     newvalue = malloc ((newlen + 1) * sizeof(char));
     if (!newvalue)
         return (1);
-    ft_fill_new_value_var(adress, varlim, &newvalue, env);
-    free(*adress);
-    *adress = newvalue;
+    ft_fill_new_value_var(valad, varlim, &newvalue, env);
+    free(*valad);
+    *valad = newvalue;
     varlim->start += offset;
     varlim->end += offset;
     return (0);

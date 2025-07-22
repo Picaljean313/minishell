@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:29:15 by anony             #+#    #+#             */
-/*   Updated: 2025/07/21 13:34:45 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/22 16:16:08 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ int ft_is_quote_active(char *input, int ind)
     return (0);
 }
 
-int ft_is_simple_quote_active(char *input, int ind)
+int ft_is_simple_quote_active(char *value, int ind)
 {
     int i;
     int sq;
     int dq;
     int last; 
     
-    if (ind >= (int)ft_strlen(input))
+    if (ind >= (int)ft_strlen(value))
         return (2);
     i = 0;
     sq = 0;
@@ -101,9 +101,9 @@ int ft_is_simple_quote_active(char *input, int ind)
     last = '\0';
     while (i < ind)
     {
-        if (input[i] == '\'')
+        if (value[i] == '\'')
             ft_handle_simple_quote(&sq, &dq, &last);
-        if (input[i] == '\"')
+        if (value[i] == '\"')
             ft_handle_double_quote(&sq, &dq, &last);
         i++;
     }
