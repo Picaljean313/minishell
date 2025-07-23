@@ -6,43 +6,50 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:23:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/22 16:29:06 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/23 13:53:09 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_handle_quote(char **valad, int start, int end)
+void ft_handle_quote_bis(char **valad, int start, int end, char *newvalue)
 {
-    char *value;
-    char *newvalue;
-    int newlen;
     int i;
-
-    value = *valad;
-    newlen = (int)ft_strlen(value) - 2;
-    if (newlen < 0)
-        return (1);
-    newvalue = malloc ((newlen + 1) * sizeof(char));
+    
     i = 0;
     while (i < start)
     {
-        newvalue[i] = value[i];
+        newvalue[i] = (*valad)[i];
         i++;
     }
     i++;
     while (i < end)
     {
-        newvalue[i - 1] = value[i];
+        newvalue[i - 1] = (*valad)[i];
         i++;
     }
     i++;
-    while (i < (int)ft_strlen(value))
+    while (i < (int)ft_strlen(*valad))
     {
-        newvalue[i - 2] = value[i];
+        newvalue[i - 2] = (*valad)[i];
         i++;
     }
     newvalue[i - 2] = '\0';
+    return ;
+}
+
+int ft_handle_quote(char **valad, int start, int end)
+{
+    char *newvalue;
+    int newlen;
+
+    newlen = (int)ft_strlen(*valad) - 2;
+    if (newlen < 0)
+        return (1);
+    newvalue = malloc ((newlen + 1) * sizeof(char));
+    if (!newvalue)
+        return (1);
+    ft_handle_quote_bis(valad, start, end, newvalue);
     *valad = newvalue;
     return (0);
 }

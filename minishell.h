@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/23 12:55:23 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/23 13:53:28 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int ft_expand(t_shell *shell);
 
 // removequotes.c
 
+void ft_handle_quote_bis(char **valad, int start, int end, char *newvalue);
 int ft_handle_quote(char **valueadress, int start, int end);
 int ft_remove_quotes(char **valad);
 
