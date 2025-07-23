@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/22 17:59:16 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/23 12:55:23 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,10 @@ void ft_add_redirin(t_redir *redir, t_token *token, t_pipe *pipe);
 void ft_add_redirout(t_redir *redir, t_token *token, t_pipe *pipe);
 int ft_add_redir(t_token *token, t_pipe *pipe);
 int ft_add_arg(t_token *token, t_pipe *pipe);
+
+// checkinput.c
+
+int ft_check_wrong_operator(char *input, int ind);
+int ft_check_input(char *input);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:20:00 by anony             #+#    #+#             */
-/*   Updated: 2025/07/22 17:21:44 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/22 19:56:22 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ t_pipe **ft_parser(t_token **tokentab)
 
     if (!tokentab)
         return (NULL);
-    pipetab = malloc (sizeof(t_pipe **));
+    pipetab = malloc (sizeof(t_pipe *));
     if (!pipetab)
         return (NULL);
+    *pipetab = NULL;
     token = *tokentab;
     if (!token)
         return (NULL);

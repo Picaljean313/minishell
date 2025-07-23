@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 13:23:56 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/22 19:56:23 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,13 @@ void ft_handle_sigint(int sig)
     return ;
 }
 
-void ft_handle_sigquit(int sig)
-{
-    (void)sig;
-}
 
 void ft_signal_handler()
 {
     signal(SIGINT, ft_handle_sigint);
-    signal(SIGQUIT, ft_handle_sigquit);
     for (int i = 1; i < NSIG; i++) 
     {
-        if (i == SIGINT || i == SIGQUIT)
+        if (i == SIGINT)
             continue ; 
         signal(i, SIG_IGN);
     }

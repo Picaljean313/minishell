@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/22 18:11:43 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/23 12:57:15 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,33 @@ int main (int argc, char **argv, char **envp)
         add_history(shell.input);
         // if (ft_replace_vars(&shell) != 0)
         //     break ;
+        if (ft_check_input(shell.input) != 0)
+        {
+            printf("Your input sucks\n");
+            continue ;
+        }
         shell.tokens = ft_lexer(&shell);
         if (!shell.tokens)
-            break ;
+        {
+            printf("Lexer failed\n");
+            continue ;
+        }
         if (ft_expand(&shell) != 0)
-            break;
+        {
+            printf("Expand failed\n");
+            continue ;
+        }
         if (ft_check_pipes(shell.tokens) != 0)
+        {
             printf("Your pipes sucks\n");
+            continue ;
+        }
         shell.pipes = ft_parser(shell.tokens);
         if (!shell.tokens)
-            break ;
+        {
+            printf("Parser failed\n");
+            continue ;
+        }
 
             
         // ft_show_tokentab(shell.tokens);
