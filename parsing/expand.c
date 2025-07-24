@@ -5,13 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 15:13:40 by anony             #+#    #+#             */
-/*   Updated: 2025/07/22 16:11:19 by anony            ###   ########.fr       */
+/*   Created: 2025/07/24 17:23:38 by anony             #+#    #+#             */
+/*   Updated: 2025/07/24 19:41:36 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
+// void ft_remove_empty_tokens(t_shell *shell)
+// {
+//     t_token *token;
+//     t_token *temp;
+
+//     token = shell->tokens;
+//     while (ft_strncmp(token->value, "", 1) == 0)
+//     {
+//         if (token->next)
+//             token = token->next;
+//         else
+//         {
+//             shell->tokens = NULL;
+//             return ;
+//         }
+//     }
+//     shell->tokens = token;
+//     while (token)
+//     {
+//         temp = token->next;
+//         if (temp)
+//         {
+//             if (ft_strncmp(temp->value, "", 1) == 0)
+//                 temp = temp->next;
+//         }
+//         else
+//             break;
+//     }
+//     bouf
+// }
 
 int ft_expand(t_shell *shell)
 {
@@ -19,22 +49,17 @@ int ft_expand(t_shell *shell)
 
     if (!shell->tokens)
         return (1);
-    token = *shell->tokens;
+    token = shell->tokens;
     while (token)
     {
+        if (!token->value)
+            return (1);
         if (ft_replace_vars(&token->value, shell) != 0)
             return (1);
-
-
-
-
-
-            
         if (ft_remove_quotes(&token->value) != 0)
             return (1);
-        printf("token:-%s-\n", token->value);
         token = token->next;
     }
+    // ft_remove_empty_tokens(shell);
     return (0);
 }
-

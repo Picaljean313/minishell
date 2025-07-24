@@ -6,24 +6,19 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:41:36 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 18:49:24 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 19:12:13 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char *ft_next_token_value(char *input, int *ind)
 {
     char *tokenvalue;
 
-    tokenvalue = NULL;
-    if (!input || *ind > (int)ft_strlen(input)
+    if (!input || *ind >= (int)ft_strlen(input)
             || ft_is_quote_active(input, *ind) == 1)
         return (NULL);
-    while (input[*ind] == ' ' || (input[*ind] >= 9 && input[*ind] <= 13))
-        (*ind)++;
-    if (!input[*ind])
-        return (ft_strdup(""));
     if (input[*ind] == '|' || input[*ind] == '<' || input[*ind] == '>')
     {
         if (ft_handle_no_word_token(input, ind, &tokenvalue) != 0)
@@ -34,6 +29,8 @@ char *ft_next_token_value(char *input, int *ind)
         if (ft_handle_word_token(input, ind, &tokenvalue) != 0)
             return (NULL);
     }
+    while (input[*ind] == ' ' || (input[*ind] >= 9 && input[*ind] <= 13))
+        (*ind)++;
     return (tokenvalue);
 }
 
@@ -53,26 +50,17 @@ t_token_type ft_get_token_type(char *value)
         return (WORD);
 }
 
-int ft_add_token(t_token **tab, t_token_type type, char *value)
+int ft_add_token(t_shell *shell, t_token *token)
 {
-    t_token *token;
     t_token *temp;
 
-    if (!tab || !value)
-        return (1);
-    token = malloc(sizeof(t_token));
     if (!token)
         return (1);
-    token->type = type;
-    token->value = ft_strdup(value);
-    if (!token->value)
-        return (1);
-    token->next = NULL;
-    if (!*tab)
-        *tab = token;
+    if (!shell->tokens)
+        shell->tokens = token;
     else
     {
-        temp = *tab;
+        temp = shell->tokens;
         while (temp->next)
             temp = temp->next;
         temp->next = token;
@@ -80,30 +68,25 @@ int ft_add_token(t_token **tab, t_token_type type, char *value)
     return (0);
 }
 
-t_token **ft_lexer(t_shell *shell)
+int ft_lexer(t_shell *shell)
 {
-    t_token **tokentab;
-    char *value;
-    t_token_type tokentype;
+    t_token *token;
     int ind;
 
-    if (!shell->input)
-        return (NULL);
-    tokentab = malloc (sizeof(t_token **));
-    if (!tokentab)
-        return (NULL);
-    *tokentab = NULL;
     ind = 0;
     while (ind < (int)ft_strlen(shell->input))
     {
-        value = ft_next_token_value(shell->input, &ind);
-        if (!value)
-            return (NULL);
-        if (ft_strncmp("", value, 1) == 0)
-            break ;
-        tokentype = ft_get_token_type(value);
-        if (ft_add_token(tokentab, tokentype, value) != 0)
-            return (NULL);
+        token = malloc(sizeof(t_token));
+        if (!token)
+            return (1);
+        token->type = 0;
+        token->next = NULL;
+        token->value = ft_next_token_value(shell->input, &ind);
+        if (!token->value)
+            return (ft_free_token(token), 1);
+        token->type = ft_get_token_type(token->value);
+        if (ft_add_token(shell, token) != 0)
+            return (ft_free_token(token), 1);
     }
-    return (tokentab);
+    return (0);
 }

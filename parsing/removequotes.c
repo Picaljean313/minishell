@@ -6,11 +6,11 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:23:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/23 13:53:09 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 17:54:05 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void ft_handle_quote_bis(char **valad, int start, int end, char *newvalue)
 {
@@ -43,6 +43,8 @@ int ft_handle_quote(char **valad, int start, int end)
     char *newvalue;
     int newlen;
 
+    if (!(*valad)[end])
+        return (1);
     newlen = (int)ft_strlen(*valad) - 2;
     if (newlen < 0)
         return (1);
@@ -50,6 +52,7 @@ int ft_handle_quote(char **valad, int start, int end)
     if (!newvalue)
         return (1);
     ft_handle_quote_bis(valad, start, end, newvalue);
+    free(*valad);
     *valad = newvalue;
     return (0);
 }
@@ -73,7 +76,7 @@ int ft_remove_quotes(char **valad)
             end++;
             while ((*valad)[end] && (*valad)[end] != quote)
                 end++;
-            if (!(*valad)[end] || ft_handle_quote(valad, start, end) != 0)
+            if (ft_handle_quote(valad, start, end) != 0)
                 return (1);
             start = end - 1;
         }

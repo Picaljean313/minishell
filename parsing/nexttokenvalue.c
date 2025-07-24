@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nexttokenvalueutils.c                              :+:      :+:    :+:   */
+/*   nexttokenvalue.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 16:35:38 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 16:59:31 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 18:54:08 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int ft_handle_pipe_token(char *input, int *ind, char **tokenvalueadress)
 {
     if (!input || !ind || !tokenvalueadress)
         return (1);
     *tokenvalueadress = ft_strdup("|");
-    if (!*tokenvalueadress)
+    if (!(*tokenvalueadress))
         return (1);
     (*ind)++;
     return (0);
@@ -30,14 +30,14 @@ int ft_handle_redirin_token(char *input, int *ind, char **tokenvalueadress)
     if (input[(*ind) + 1] == '<')
     {
         *tokenvalueadress = ft_strdup("<<");
-        if (!*tokenvalueadress)
+        if (!(*tokenvalueadress))
             return (1);
         (*ind) += 2;
     }
     else
     {
         *tokenvalueadress = ft_strdup("<");
-        if (!*tokenvalueadress)
+        if (!(*tokenvalueadress))
             return (1);
         (*ind)++;
     }
@@ -51,14 +51,14 @@ int ft_handle_redirout_token(char *input, int *ind, char **tokenvalueadress)
     if (input[(*ind) + 1] == '>')
     {
         *tokenvalueadress = ft_strdup(">>");
-        if (!*tokenvalueadress)
+        if (!(*tokenvalueadress))
             return (1);
         (*ind) += 2;
     }
     else
     {
         *tokenvalueadress = ft_strdup(">");
-        if (!*tokenvalueadress)
+        if (!(*tokenvalueadress))
             return (1);
         (*ind)++;
     }
@@ -68,6 +68,8 @@ int ft_handle_redirout_token(char *input, int *ind, char **tokenvalueadress)
 int ft_handle_no_word_token(char *input, int *ind, char **tokenvalueadress)
 {
     if (!input || !ind || !tokenvalueadress)
+        return (1);
+    if (*ind >= (int)ft_strlen(input))
         return (1);
     if (input[*ind] == '|')
     {
@@ -95,6 +97,8 @@ int ft_handle_word_token(char *input, int *ind, char **tokenvalueadress)
     int end;
 
     if (!input || !ind || !tokenvalueadress)
+        return (1);
+    if (*ind >= (int)ft_strlen(input))
         return (1);
     start = *ind;
     while (input[*ind])

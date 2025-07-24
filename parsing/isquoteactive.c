@@ -6,11 +6,11 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:29:15 by anony             #+#    #+#             */
-/*   Updated: 2025/07/22 16:16:08 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 13:49:47 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void ft_handle_simple_quote(int *sq, int *dq, int *last)
 {

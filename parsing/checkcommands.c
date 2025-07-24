@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkpipes.c                                       :+:      :+:    :+:   */
+/*   checkcommands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:36:25 by anony             #+#    #+#             */
-/*   Updated: 2025/07/21 17:52:25 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 19:24:43 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int ft_check_empty_pipe(t_token **tab)
+int ft_check_empty_command(t_token *token)
 {
-    t_token *token;
-
-    if (!*tab)
+    if (!token)
         return(1);
-    token = *tab;
     if (token->type == PIPE)
         return(1);
-    while (token->next)
+    while (token)
+    {
+        if (token->type == PIPE)
+        {
+            if (token->next)
+            {
+                token = token->next;
+                if (token->type == PIPE)
+                    return (1);
+            }
+            else
+                return (1);
+        }
         token = token->next;
-    if (token->type == PIPE)
-        return(1);
+    }
     return (0);
 }
 
-int ft_check_pipe(t_token *token)
+int ft_check_command(t_token *token)
 {
     int cmd;
     
@@ -55,16 +63,16 @@ int ft_check_pipe(t_token *token)
     return (0);
 }
 
-int ft_check_pipes(t_token **tab)
+int ft_check_commands(t_shell *shell)
 {
     t_token *token;
 
-    if (ft_check_empty_pipe(tab) != 0)
+    if (ft_check_empty_command(shell->tokens) != 0)
         return (1);
-    token = *tab;
+    token = shell->tokens;
     while (token)
     {
-        if (ft_check_pipe(token) != 0)
+        if (ft_check_command(token) != 0)
             return (1);
         while (token->next && token->type != PIPE)
            token = token->next;

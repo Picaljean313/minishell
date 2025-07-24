@@ -1,16 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   setenv.c                                           :+:      :+:    :+:   */
+/*   initshell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 13:15:13 by anony             #+#    #+#             */
-/*   Updated: 2025/07/18 14:55:38 by anony            ###   ########.fr       */
+/*   Created: 2025/07/17 17:58:06 by anony             #+#    #+#             */
+/*   Updated: 2025/07/24 18:28:32 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
+
+int	ft_check_params(int argc, char **argv, char **env)
+{
+	if (argc != 1 || !argv || !env)
+	{
+		printf("Check params");
+		return (1);
+	}
+	return (0);
+}
 
 int	ft_set_shlvl(char **env)
 {
@@ -24,15 +34,17 @@ int	ft_set_shlvl(char **env)
 		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
 		{
 			lvl = ft_atoi(env[i] + 6) + 1;
-			free(env[i]);
 			newlvl = ft_itoa(lvl);
 			if (!newlvl)
 				return (1);
+			free(env[i]);
 			env[i] = ft_strjoin("SHLVL=", newlvl);
 			if (!env[i])
+			{
+				env[i] = ft_strdup("");
 				return (free(newlvl), 1);
-			free(newlvl);
-			return (0);
+			}
+			return (free(newlvl), 0);
 		}
 		i++;
 	}
@@ -45,8 +57,6 @@ char	**ft_set_env(char **env)
 	int		j;
 	char	**env_copy;
 
-	if (!env)
-		return (NULL);
 	i = 0;
 	while (env[i])
 		i++;
@@ -62,6 +72,19 @@ char	**ft_set_env(char **env)
 		j++;
 	}
 	env_copy[j] = NULL;
-	ft_set_shlvl(env_copy);
+	if (ft_set_shlvl(env_copy) != 0)
+		return (NULL);
 	return (env_copy);
+}
+
+int	ft_init_shell(t_shell *shell, char **envp)
+{
+	shell->env = ft_set_env(envp);
+	if (!shell->env)
+		return (1);
+	shell->input = NULL;
+	shell->exitcode = 0;
+	shell->tokens = NULL;
+	shell->commands = NULL;
+	return (0);
 }

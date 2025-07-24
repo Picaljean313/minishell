@@ -6,11 +6,11 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:45:41 by anony             #+#    #+#             */
-/*   Updated: 2025/07/23 12:57:58 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 13:18:48 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int ft_check_wrong_operator(char *input, int ind)
 {
@@ -44,6 +44,8 @@ int ft_check_input(char *input)
     sq = 0;
     dq = 0;
     last = 0;
+    if (!input[0])
+        return (1);
     while (input[i])
     {
         if (sq == 0 && dq == 0)
@@ -56,6 +58,6 @@ int ft_check_input(char *input)
         i++;
     }
     if (sq != 0 || dq != 0)
-        return (2);
+        return (1);
     return (0);
 }

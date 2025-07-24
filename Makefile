@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/07/07 13:50:41 by anony             #+#    #+#              #
-#    Updated: 2025/07/23 12:51:28 by anony            ###   ########.fr        #
+#    Created: 2025/07/24 12:33:08 by anony             #+#    #+#              #
+#    Updated: 2025/07/24 18:20:11 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = minishell.c initshell.c setenv.c cleanshell.c utils.c signal.c lexer.c nexttokenvalue.c isquoteactive.c replacevars.c exitvar.c envvar.c checkpipes.c expand.c removequotes.c parser.c fillpipe.c argsredirs.c checkinput.c
+FILES = minishell.c parsing/initshell.c parsing/clean.c parsing/checkinput.c parsing/isquoteactive.c parsing/lexer.c parsing/nexttokenvalue.c parsing/utils.c parsing/expand.c parsing/removequotes.c parsing/replacevars.c parsing/exitvar.c parsing/envvar.c parsing/checkcommands.c  signal.c parsing.c
 
 OFILES = $(FILES:.c=.o)
 
