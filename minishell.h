@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 18:27:18 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 22:22:47 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ int ft_handle_var_exit_status(char **valad, t_varlimits *varlim);
 
 // expand.c
 
+int ft_not_only_spaces(char *str);
+void ft_remove_first_empty_tokens(t_shell *shell);
+void ft_remove_empty_tokens(t_shell *shell);
 int ft_expand(t_shell *shell);
 
 // initshell.c

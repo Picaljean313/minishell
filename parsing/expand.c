@@ -6,42 +6,69 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:23:38 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 19:41:36 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 22:20:27 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void ft_remove_empty_tokens(t_shell *shell)
-// {
-//     t_token *token;
-//     t_token *temp;
+int ft_not_only_spaces(char *str)
+{
+    int i;
+    
+    if (!str)
+        return (1);
+    i = 0;
+    while (str[i])
+    {
+        if (!(str[i] == ' ' || (str[i] >= 9 && str[i] <= 13)))
+            return (0);
+        i++;
+    }
+    return (1);
+}
 
-//     token = shell->tokens;
-//     while (ft_strncmp(token->value, "", 1) == 0)
-//     {
-//         if (token->next)
-//             token = token->next;
-//         else
-//         {
-//             shell->tokens = NULL;
-//             return ;
-//         }
-//     }
-//     shell->tokens = token;
-//     while (token)
-//     {
-//         temp = token->next;
-//         if (temp)
-//         {
-//             if (ft_strncmp(temp->value, "", 1) == 0)
-//                 temp = temp->next;
-//         }
-//         else
-//             break;
-//     }
-//     bouf
-// }
+void ft_remove_first_empty_tokens(t_shell *shell)
+{
+    t_token *temp;
+    
+    if (!shell->tokens)
+        return ;
+    while (ft_strncmp(shell->tokens->value, "", 1) == 0
+        || ft_not_only_spaces(shell->tokens->value) != 0)
+    {
+        temp = shell->tokens;
+        shell->tokens = shell->tokens->next;
+        free(temp->value);
+        free(temp);
+        if (!shell->tokens)
+            return ;
+    }
+}
+
+void ft_remove_empty_tokens(t_shell *shell)
+{
+    t_token *token;
+    t_token *temp;
+
+    ft_remove_first_empty_tokens(shell);
+    token = shell->tokens;
+    while (token)
+    {
+        temp = token->next;
+        if (!temp)
+            return ;
+        if (ft_strncmp(temp->value, "", 1) == 0 
+            || ft_not_only_spaces(temp->value) != 0)
+        {
+            token->next = temp->next;
+            free(temp->value);
+            free(temp);
+        }
+        else
+            token = token->next;
+    }
+}
 
 int ft_expand(t_shell *shell)
 {
@@ -60,6 +87,6 @@ int ft_expand(t_shell *shell)
             return (1);
         token = token->next;
     }
-    // ft_remove_empty_tokens(shell);
+    ft_remove_empty_tokens(shell);
     return (0);
 }

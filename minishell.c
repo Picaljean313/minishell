@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 17:19:20 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/24 21:29:33 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int g_signal = 0;
 
 void ft_show_tokentab(t_token *token)
 {
-
     while (token)
     {
         printf("enum : %d\n", token->type);
