@@ -6,11 +6,11 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:58:06 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 18:28:32 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/25 19:49:10 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	ft_check_params(int argc, char **argv, char **env)
 {

@@ -6,11 +6,11 @@
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/24 12:33:08 by anony             #+#    #+#              #
-#    Updated: 2025/07/25 13:41:47 by anony            ###   ########.fr        #
+#    Updated: 2025/07/25 19:49:00 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = minishell.c parsing/initshell.c parsing/clean.c parsing/cleanbis.c parsing/checkinput.c parsing/isquoteactive.c parsing/lexer.c parsing/nexttokenvalue.c parsing/utils.c parsing/expand.c parsing/removequotes.c parsing/replacevars.c parsing/exitvar.c parsing/envvar.c parsing/checkcommands.c parsing/parser.c parsing/commandargs.c parsing/commandredirs.c signal.c parsing.c
+FILES = minishell.c initshell.c parsing/clean.c parsing/cleanbis.c parsing/checkinput.c parsing/isquoteactive.c parsing/lexer.c parsing/nexttokenvalue.c parsing/utils.c parsing/expand.c parsing/removequotes.c parsing/replacevars.c parsing/exitvar.c parsing/envvar.c parsing/checkcommands.c parsing/parser.c parsing/commandargs.c parsing/commandredirs.c signal.c parsing.c
 
 OFILES = $(FILES:.c=.o)
 
