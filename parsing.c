@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 15:36:32 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 18:19:05 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/25 11:53:04 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,7 @@ int ft_parsing(t_shell *shell)
         return (printf("Expand failed\n"), 1);
     if (ft_check_commands(shell) != 0)
         return (printf("Your commands sucks\n"), 1);
-
-
-    // shell->pipes = ft_parser(shell->tokens);
-    // if (!shell->tokens)
-    // {
-    //     printf("Parser failed\n");
-    //     return (1);
-    // }
+    if (ft_parser(shell) != 0)
+        return (printf("Parser failed\n"), 1);
     return (0);
 }

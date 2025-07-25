@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 12:58:06 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 21:18:41 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/25 16:39:39 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void ft_clean_line(t_shell *shell)
 {
     ft_free_input(shell);
     ft_free_tokens(shell);
+    ft_free_commands(shell);
 }
 
 void ft_clean_shell(t_shell *shell)
@@ -74,4 +75,5 @@ void ft_clean_shell(t_shell *shell)
     ft_free_env(shell);
     ft_free_input(shell);
     ft_free_tokens(shell);
+    ft_free_commands(shell);
 }

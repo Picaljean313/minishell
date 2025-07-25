@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:36:25 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 19:24:43 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/25 17:09:42 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ int ft_check_command(t_token *token)
         if (!token)
             break ;
     }
-    if (cmd == 0)
-        return (1);
     return (0);
 }
 

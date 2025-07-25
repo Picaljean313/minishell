@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 22:22:47 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/25 17:06:49 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_varlimits
 	int end;
 } t_varlimits;
 
-
 // signal.c
 
 void ft_handle_sigint(int sig);
@@ -96,8 +95,29 @@ int ft_check_input(char *input);
 // clean.c
 
 void ft_free_env(t_shell *shell);
+void ft_free_input(t_shell *shell);
+void ft_free_tokens(t_shell *shell);
 void ft_clean_line(t_shell *shell);
 void ft_clean_shell(t_shell *shell);
+
+// cleanbis.c
+
+void ft_free_command_args(t_command *command);
+void ft_free_command_redirin(t_command *command);
+void ft_free_command_redirout(t_command *command);
+void ft_free_commands(t_shell *shell);
+
+// commandargs.c
+
+void ft_free_args(char **args, int ind);
+int ft_args_len(t_command *command);
+int ft_add_arg(t_token *token, t_command *command);
+
+// commandredirs.c
+
+void ft_add_redirin(t_redir *redir, t_token *token, t_command *command);
+void ft_add_redirout(t_redir *redir, t_token *token, t_command *command);
+int ft_add_redir(t_token *token, t_command *command);
 
 // envvar.c
 
@@ -145,6 +165,13 @@ int ft_handle_redirin_token(char *input, int *ind, char **tokenvalueadress);
 int ft_handle_redirout_token(char *input, int *ind, char **tokenvalueadress);
 int ft_handle_no_word_token(char *input, int *ind, char **tokenvalueadress);
 int ft_handle_word_token(char *input, int *ind, char **tokenvalueadress);
+
+// parser.c
+
+int ft_init_command(t_command *command);
+int ft_fill_command_bis(t_token *token, t_command *command);
+int ft_fill_command(t_command *com, t_token *token, t_shell *shell);
+int ft_parser(t_shell *shell);
 
 // removequotes.c
 

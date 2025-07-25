@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/24 21:29:33 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/25 17:10:44 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,44 @@
 int g_signal = 0;
 
 
-void ft_show_tokentab(t_token *token)
+void ft_show(char **tab)
 {
-    while (token)
+    int i;
+    i = 0;
+    if (!tab){
+        printf("no tab\n");
+        return ;
+    }
+    printf("start\n");
+    while (tab[i])
     {
-        printf("enum : %d\n", token->type);
-        printf("value : %s\n", token->value);
-        token = token->next;
+        printf("%s\n", tab[i]);
+        i++;
+    }
+    printf("end\n");
+}
+
+void ft_chaine(t_redir *redir)
+{
+    printf("\n");
+    while (redir)
+    {
+        printf("redir type: %d, redir file : %s\n", redir->type, redir->file);
+        redir = redir->next;
+    }
+}
+
+void ft_show_commands(t_command *commands)
+{
+    while (commands)
+    {
+        printf("Commande\n");
+        printf("cmd : %s\n", commands->cmd);
+        ft_show(commands->args);
+        ft_chaine(commands->redirin);
+        ft_chaine(commands->redirout);
+        commands = commands->next;
+        printf("\n");
     }
     return ;
 }
@@ -41,7 +72,6 @@ int main (int argc, char **argv, char **envp)
     while (1)
     {
         res = ft_parsing(&shell);
-        ft_show_tokentab(shell.tokens);
         if (res == 2)
             return (ft_clean_shell(&shell), 2);
         if (res == 1)
@@ -49,6 +79,9 @@ int main (int argc, char **argv, char **envp)
             ft_clean_line(&shell);
             continue ;
         }
+        
+        ft_show_commands(shell.commands);
+
         
         ft_clean_line(&shell);
     }
