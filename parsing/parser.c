@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:20:00 by anony             #+#    #+#             */
-/*   Updated: 2025/07/25 18:58:59 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/28 14:03:52 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_init_command(t_command *command)
 {
 	if (!command)
 		return (1);
-	command->cmd = NULL;
 	command->args = NULL;
 	command->redirin = NULL;
 	command->redirout = NULL;
@@ -28,9 +27,7 @@ int	ft_fill_command_bis(t_token *token, t_command *command)
 {
 	while (token->type != PIPE)
 	{
-		if (token->type == WORD && !command->cmd)
-			command->cmd = ft_strdup(token->value);
-		else if (token->type == WORD)
+		if (token->type == WORD)
 		{
 			if (ft_add_arg(token, command) != 0)
 				return (1);

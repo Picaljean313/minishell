@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/25 19:38:33 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/28 14:03:19 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_redir
 
 typedef struct s_command
 {
-	char				*cmd;
 	char				**args;
 	t_redir				*redirin;
 	t_redir				*redirout;

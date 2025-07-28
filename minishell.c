@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/25 20:00:22 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/28 14:04:55 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ft_show_commands(t_command *commands)
 	while (commands)
 	{
 		printf("Commande\n");
-		printf("cmd : %s\n", commands->cmd);
 		ft_show(commands->args);
 		ft_chaine(commands->redirin);
 		ft_chaine(commands->redirout);

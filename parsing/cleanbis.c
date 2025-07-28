@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 12:48:43 by anony             #+#    #+#             */
-/*   Updated: 2025/07/25 18:07:56 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/28 14:04:18 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,6 @@ void	ft_free_commands(t_shell *shell)
 	while (com)
 	{
 		next = com->next;
-		if (com->cmd)
-		{
-			free(com->cmd);
-			com->cmd = NULL;
-		}
 		if (com->args)
 			ft_free_command_args(com);
 		if (com->redirin)
