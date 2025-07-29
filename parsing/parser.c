@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:20:00 by anony             #+#    #+#             */
-/*   Updated: 2025/07/28 14:03:52 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/28 20:44:59 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_parser(t_shell *shell)
 			return (1);
 		ft_fill_command(command, token, shell);
 		while (token->next && token->type != PIPE)
-		token = token->next;
+			token = token->next;
 		token = token->next;
 	}
 	return (0);
