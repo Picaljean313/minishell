@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/28 14:03:19 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/30 18:07:55 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+#include <sys/wait.h>
 
 extern int	g_signal;
 
@@ -188,5 +189,19 @@ int		ft_replace_vars(char **valad, t_shell *shell);
 void	ft_free_token(t_token *token);
 char	*ft_truncate(char *str, int start, int end);
 char	*ft_getenv(char *var, char **env);
+
+//  EXEC
+
+// exec.c
+
+void ft_exec (t_shell *shell);
+
+// cd.c
+
+int ft_cd(t_command *command, t_shell *shell);
+
+// utils.c
+
+int ft_add_env_value(char *value, char **env);
 
 #endif

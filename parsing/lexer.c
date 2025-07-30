@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:41:36 by anony             #+#    #+#             */
-/*   Updated: 2025/07/25 19:32:38 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/29 17:43:52 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_next_token_value(char *input, int *ind)
 	if (!input || *ind >= (int)ft_strlen(input)
 		|| ft_is_quote_active(input, *ind) == 1)
 		return (NULL);
+	while (input[*ind] == ' ' || (input[*ind] >= 9 && input[*ind] <= 13))
+		(*ind)++;
 	if (input[*ind] == '|' || input[*ind] == '<' || input[*ind] == '>')
 	{
 		if (ft_handle_no_word_token(input, ind, &tokenvalue) != 0)
