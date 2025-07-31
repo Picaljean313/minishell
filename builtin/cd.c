@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:05:58 by anony             #+#    #+#             */
-/*   Updated: 2025/07/30 18:34:57 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/31 16:17:34 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_show_bis(char **tab)
 }
 
 
-int	ft_set_env_value(char *value, char *var, char **env)
+int	ft_set_env_value(char *value, char *var, t_shell *shell)
 {
 	int		i;
     char *newvalue;
@@ -69,17 +69,17 @@ int	ft_set_env_value(char *value, char *var, char **env)
     if (!newvalue)
         return (1);
     i = 0;
-	while (env[i])
+	while (shell->env[i])
 	{
-		if (ft_strncmp(env[i], var, (int)ft_strlen(var)) == 0)
+		if (ft_strncmp(shell->env[i], var, (int)ft_strlen(var)) == 0)
 		{
-			free(env[i]);
-            env[i] = newvalue;
+			free(shell->env[i]);
+            shell->env[i] = newvalue;
 			return (0);
 		}
 		i++;
 	}
-    if (ft_add_env_value(newvalue, env) != 0)
+    if (ft_add_env_value(newvalue, shell) != 0)
         return (1);
     return (0);
 }
@@ -108,9 +108,9 @@ int ft_cd(t_command *command, t_shell *shell)
     cwd = getcwd(NULL, 0);
     if (!cwd)
         return (free(oldcwd), free(newpath), perror("getcwd"), 1);
-    if (ft_set_env_value(oldcwd, "OLDPWD=", shell->env) != 0)
+    if (ft_set_env_value(oldcwd, "OLDPWD=", shell) != 0)
         return (free(cwd), free(newpath), free(oldcwd), 1);
-    if (ft_set_env_value(cwd, "PWD=", shell->env) != 0)
+    if (ft_set_env_value(cwd, "PWD=", shell) != 0)
         return (free(cwd), free(newpath), free(oldcwd), 1);
 
         

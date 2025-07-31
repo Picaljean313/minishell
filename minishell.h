@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/30 18:07:55 by anony            ###   ########.fr       */
+/*   Updated: 2025/07/31 17:47:56 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,10 +198,35 @@ void ft_exec (t_shell *shell);
 
 // cd.c
 
+int	ft_set_env_value(char *value, char *var, t_shell *shell);
 int ft_cd(t_command *command, t_shell *shell);
+
+// echo.c
+
+int ft_echo(t_command *command);
+
+// env.c
+
+int ft_env(t_command *command, t_shell *shell);
+
+// exit.c
+
+int ft_exit(t_command *command);
+
+// export
+
+int ft_export(t_command *command, t_shell *shell);
+
+// pwd.c
+
+int ft_pwd(t_command *command);
+
+// unset.c
+
+int ft_unset(t_command *command, t_shell *shell);
 
 // utils.c
 
-int ft_add_env_value(char *value, char **env);
+int ft_add_env_value(char *value, t_shell *shell);
 
 #endif
