@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 17:47:56 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 14:58:23 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <signal.h>
 #include <sys/wait.h>
 
-extern int	g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 typedef enum e_type
 {
@@ -50,8 +50,8 @@ typedef struct s_redir
 typedef struct s_command
 {
 	char				**args;
-	t_redir				*redirin;
-	t_redir				*redirout;
+	t_redir				*redir;
+	// t_redir				*redirout;
 	struct s_command	*next;
 }	t_command;
 
@@ -103,8 +103,7 @@ void	ft_clean_shell(t_shell *shell);
 // cleanbis.c
 
 void	ft_free_command_args(t_command *command);
-void	ft_free_command_redirin(t_command *command);
-void	ft_free_command_redirout(t_command *command);
+void	ft_free_command_redir(t_command *command);
 void	ft_free_commands(t_shell *shell);
 
 // commandargs.c
@@ -115,8 +114,6 @@ int		ft_add_arg(t_token *token, t_command *command);
 
 // commandredirs.c
 
-void	ft_add_redirin(t_redir *redir, t_token *token, t_command *command);
-void	ft_add_redirout(t_redir *redir, t_token *token, t_command *command);
 int		ft_add_redir(t_token *token, t_command *command);
 
 // envvar.c
@@ -195,6 +192,8 @@ char	*ft_getenv(char *var, char **env);
 // exec.c
 
 void ft_exec (t_shell *shell);
+
+// BUILTIN
 
 // cd.c
 

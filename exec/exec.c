@@ -6,11 +6,65 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 17:48:05 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 15:04:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void ft_free_pipetab(int **tab)
+{
+    int i;
+
+    if (!tab)
+        return ;
+    i = 0;
+    while (tab[i])
+    {
+        free(tab[i]);
+        i++;
+    }
+    free(tab);
+    return ;
+}
+
+int ft_nb_commands(t_shell *shell)
+{
+	t_command * command;
+    int nbcom;
+    
+    nbcom = 0;
+    command = shell->commands;
+	while (command)
+	{
+		command = command->next;
+		nbcom++;
+	}
+    return (nbcom);
+}
+
+int **ft_alloc_pipe_tab(t_shell *shell)
+{
+	int nbcom;
+    int **pipetab;
+    int i;
+
+    nbcom = ft_nb_commands(shell);
+    pipetab = malloc (nbcom * sizeof(int *));
+    if (!pipetab)
+        return (NULL);
+    i = 0;
+    while (i < nbcom - 1)
+    {
+        pipetab[i] = malloc (3 * sizeof(int));
+        if (!pipetab[i])
+            return (ft_free_pipetab(pipetab), NULL);
+        i++;
+    }
+    pipetab[i] = NULL;
+    return (pipetab);
+}
+
 
 char *ft_create_path(char *path, char *cmd)
 {
@@ -25,6 +79,21 @@ char *ft_create_path(char *path, char *cmd)
 	return (cmdpath);
 }
 
+void ft_free_split_path(char **tab)
+{
+    int i;
+
+    if (!tab)
+        return ;
+    i = 0;
+    while (tab[i])
+    {
+        free(tab[i]);
+        i++;
+    }
+    free(tab);
+    return ;
+}
 
 char *ft_get_path (t_shell *shell)
 {
@@ -34,6 +103,11 @@ char *ft_get_path (t_shell *shell)
 	char *cmd;
 	int i;
 
+    if (shell->commands->args[0][0] == '/')
+    {
+        cmdpath = ft_strdup(shell->commands->args[0]);
+        return (cmdpath);
+    }
 	path = ft_getenv("PATH", shell->env);
 	if (!path)
 		return (NULL);
@@ -49,25 +123,13 @@ char *ft_get_path (t_shell *shell)
 		if (access(cmdpath, X_OK) != 0)
 			free(cmdpath);
 		else
-			return (cmdpath);
+			return (ft_free_split_path(splitpath), cmdpath);
 		i++;
 	}
-	return (NULL);
+	return (ft_free_split_path(splitpath), NULL);
 }
 
-/*
-| Code      | Signification conventionnelle                                                       |
-| --------- | ----------------------------------------------------------------------------------- |
-| `0`       | ✅ Succès (tout s'est bien passé)                                                    |
-| `1`       | ❌ Erreur générique (échec simple)                                                   |
-| `2`       | ❌ Mauvais usage d'une commande (mauvais arguments)                                  |
-| `126`     | ❌ Commande trouvée mais non exécutable                                              |
-| `127`     | ❌ Commande introuvable                                                              |
-| `128 + N` | ❌ Processus terminé par le **signal `N`** (ex. `130` = `SIGINT`, `131` = `SIGQUIT`) |
-| `> 128`   | Souvent associé à une **fin anormale** du processus                                 |
-| `255`     | ❌ Erreur fatale ou sortie manuelle avec `exit(255)`                                 |
 
-*/
 
 int ft_exec_builtin(t_command *command, t_shell *shell)
 {
@@ -119,146 +181,89 @@ int ft_is_builtin(t_command *command)
     return (1);
 }
 
-/*
-int prev_fd = -1;
-
-for (int i = 0; i < n_cmds; ++i) {
-    int pipefd[2];
-    if (i < n_cmds - 1) {
-        pipe(pipefd);
-    }
-
-    pid_t pid = fork();
-
-    if (pid == 0) {
-        if (prev_fd != -1) {
-            dup2(prev_fd, STDIN_FILENO);
-            close(prev_fd);
-        }
-        if (i < n_cmds - 1) {
-            dup2(pipefd[1], STDOUT_FILENO);
-            close(pipefd[0]);
-            close(pipefd[1]);
-        }
-        exec_command(cmds[i]); // execve or builtin
-        exit(1); // en cas d’échec
-    } else {
-        if (prev_fd != -1)
-            close(prev_fd);
-        if (i < n_cmds - 1)
-            close(pipefd[1]);
-
-        prev_fd = (i < n_cmds - 1) ? pipefd[0] : -1;
-    }
-}
-
-// attendre tous les enfants
-for (int i = 0; i < n_cmds; ++i)
-    wait(NULL);
-
-*/
-
-/*
-int fd;
-
-if (redir->type == REDIR_IN) {
-    fd = open(redir->filename, O_RDONLY);
-    dup2(fd, STDIN_FILENO);
-    close(fd);
-}
-else if (redir->type == REDIR_OUT) {
-    fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    dup2(fd, STDOUT_FILENO);
-    close(fd);
-}
-else if (redir->type == REDIR_APPEND) {
-    fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    dup2(fd, STDOUT_FILENO);
-    close(fd);
-}
-else if (redir->type == REDIR_HEREDOC) {
-    // Lire l'entrée jusqu'au délimiteur, stocker dans un pipe ou fichier temporaire
-    // puis dup2(pipe_read_end, STDIN_FILENO)
-}
-
-
-.... qund gerer les redirs :
-pid = fork();
-if (pid == 0) {
-    apply_redirections(cmd->redirs); // dup2() ici
-    exec_command(cmd); // execve ou exec_builtin
-    exit(1);
-}
-
-*/
-
-
-/*
-
-| Étape | Action                                          |
-| ----- | ----------------------------------------------- |
-| 1     | Compter les commandes dans le pipe              |
-| 2     | Créer `N - 1` pipes                             |
-| 3     | Pour chaque commande, `fork()`                  |
-| 4     | Rediriger `stdin` / `stdout` selon la position  |
-| 5     | Fermer les pipes inutiles dans chaque processus |
-| 6     | Dans le parent, `wait()` pour tous les enfants  |
-
-
-*/
 
 void ft_exec (t_shell *shell)
 {
+    int **pipetab;
+    pid_t pid;
+    int i;
+	int nbcom;
 	char *path;
-	pid_t pid;
-    // t_command *command;
-	
+    
+    
     // si cest un builtin seul
 	if (!shell->commands->next && ft_is_builtin(shell->commands) == 0)
 	{
 		if (ft_exec_builtin (shell->commands, shell) != 0)
-			exit (1) ;
-		// exit (0);
+			exit (2);
+		g_signal = 0;
 		return ;
 	}
-	return ;
-	pid = fork();
-
-	if (pid == 0)
-	{
-		if (!shell->commands->args)
-		{
-			// A TRAITER
-		}
-		else
-		{
+    pipetab = ft_alloc_pipe_tab(shell);
+    if (!pipetab)
+        exit (2);
+    i = 0;
+    nbcom = ft_nb_commands(shell);
+    while (i < nbcom)
+    {
+        if (i < nbcom - 1)
+            if (pipe(pipetab[i]) == -1)
+                {
+                    perror("pipe");
+                    ft_free_pipetab(pipetab);
+                    exit(2);
+                }
+        pid = fork();
+        if (pid < 0)
+        {
+	        perror("fork failed");
+            ft_free_pipetab(pipetab);
+            exit(2);
+        }
+        if (pid == 0)
+        {
+            if (i != 0)
+            {
+                dup2(pipetab[i - 1][0] , STDIN_FILENO);
+                close(pipetab[i - 1][0]);
+            }
+            if (i != nbcom - 1)
+            {
+                dup2(pipetab[i][1], STDOUT_FILENO);
+                close(pipetab[i][1]);
+            }
 			path = ft_get_path(shell);
 			if (!path)
 			{
 				printf("Command not found\n");
-				return ;
+                ft_free_pipetab(pipetab);
+				exit(127);
 			}
 			printf("%s\n", path);
 			if (execve(path, shell->commands->args, shell->env) == -1)
+            {
 				perror("execve");
-		}
-	}
-	else if (pid > 0)
-	{
-		waitpid(pid, NULL, 0);
-	}
-	else
-	{
-		perror("fork failed");
-	}
+                ft_free_pipetab(pipetab);
+            
+                free(path);
+                exit(2);
+            }
+        }
+        else if (pid > 0)
+        {
+            if (i != 0)
+                close(pipetab[i - 1][0]);
+            if (i != nbcom - 1)
+                close(pipetab[i][1]);
+            waitpid(pid, NULL, 0);
+        }
+        else
+        {
+            perror("fork failed");
+            ft_free_pipetab(pipetab);
+            exit(2);
+        }
+        i++;
+    }
+    ft_free_pipetab(pipetab);
 }
-
-
-/*
-POUR GERER LES HEREDOCS
-
-tu fork (juste apres le lexing, de tte facon tu lattends avant la suite) et tu readline (boucle
- comme dans le main et tu check que ton input egal le delimiteur). tu stock les differentes lignes (liste chainee)
-  
-
-*/

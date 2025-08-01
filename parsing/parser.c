@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:20:00 by anony             #+#    #+#             */
-/*   Updated: 2025/07/28 20:44:59 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 13:43:35 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	ft_init_command(t_command *command)
 	if (!command)
 		return (1);
 	command->args = NULL;
-	command->redirin = NULL;
-	command->redirout = NULL;
+	command->redir = NULL;
 	command->next = NULL;
 	return (0);
 }

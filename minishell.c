@@ -6,13 +6,13 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 15:39:01 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 13:55:48 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal = 0;
+volatile sig_atomic_t	g_signal = 0;
 
 void	ft_show(char **tab)
 {
@@ -49,8 +49,7 @@ void	ft_show_commands(t_command *commands)
 	{
 		printf("Commande\n");
 		ft_show(commands->args);
-		ft_chaine(commands->redirin);
-		ft_chaine(commands->redirout);
+		ft_chaine(commands->redir);
 		commands = commands->next;
 		printf("\n");
 	}

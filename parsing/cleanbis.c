@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 12:48:43 by anony             #+#    #+#             */
-/*   Updated: 2025/07/28 14:04:18 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 13:44:44 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	ft_free_command_args(t_command *command)
 	command->args = NULL;
 }
 
-void	ft_free_command_redirin(t_command *command)
+void	ft_free_command_redir(t_command *command)
 {
 	t_redir	*redir;
 	t_redir	*next;
 
-	if (!command->redirin)
+	if (!command->redir)
 		return ;
-	redir = command->redirin;
+	redir = command->redir;
 	while (redir)
 	{
 		next = redir->next;
@@ -48,30 +48,7 @@ void	ft_free_command_redirin(t_command *command)
 		free(redir);
 		redir = next;
 	}
-	command->redirin = NULL;
-	return ;
-}
-
-void	ft_free_command_redirout(t_command *command)
-{
-	t_redir	*redir;
-	t_redir	*next;
-
-	if (!command->redirout)
-		return ;
-	redir = command->redirout;
-	while (redir)
-	{
-		next = redir->next;
-		if (redir->file)
-		{
-			free(redir->file);
-			redir->file = NULL;
-		}
-		free(redir);
-		redir = next;
-	}
-	command->redirout = NULL;
+	command->redir = NULL;
 	return ;
 }
 
@@ -88,10 +65,8 @@ void	ft_free_commands(t_shell *shell)
 		next = com->next;
 		if (com->args)
 			ft_free_command_args(com);
-		if (com->redirin)
-			ft_free_command_redirin(com);
-		if (com->redirout)
-			ft_free_command_redirout(com);
+		if (com->redir)
+			ft_free_command_redir(com);
 		free(com);
 		com = next;
 	}
