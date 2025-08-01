@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 14:58:23 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 21:34:35 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <signal.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -51,7 +52,9 @@ typedef struct s_command
 {
 	char				**args;
 	t_redir				*redir;
-	// t_redir				*redirout;
+	int					fdin;
+	int					fdout;
+	pid_t				pid;
 	struct s_command	*next;
 }	t_command;
 
@@ -69,6 +72,12 @@ typedef struct s_vlim
 	int	start;
 	int	end;
 }	t_vlim;
+
+typedef struct s_line
+{
+	char *value;
+	struct s_line *next;
+}	t_line;
 
 // signal.c
 
@@ -191,7 +200,16 @@ char	*ft_getenv(char *var, char **env);
 
 // exec.c
 
-void ft_exec (t_shell *shell);
+void ft_close_fd(int *fd);
+int ft_exec (t_shell *shell);
+
+// heredoc
+
+int ft_heredoc(char *lim);
+
+// handleredir.c
+
+int ft_handle_redir(t_command *command);
 
 // BUILTIN
 

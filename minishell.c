@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 13:55:48 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/01 15:46:27 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		// ft_show_commands(shell.commands);
-		ft_exec(&shell);
+		if (ft_exec(&shell) != 0)
+			return (ft_clean_shell(&shell), 2);
 		ft_clean_line(&shell);
 	}
 	rl_clear_history();
