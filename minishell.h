@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 21:34:35 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/04 22:50:22 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_redir
 {
 	t_type			type;
 	char			*file;
+	int				heredocfd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -143,6 +144,11 @@ void	ft_remove_first_empty_tokens(t_shell *shell);
 void	ft_remove_empty_tokens(t_shell *shell);
 int		ft_expand(t_shell *shell);
 
+// heredoc
+
+int ft_heredoc(char *lim, t_shell *shell);
+int ft_handle_heredocs(t_shell *shell);
+
 // initshell.c
 
 int		ft_check_params(int argc, char **argv, char **env);
@@ -196,20 +202,47 @@ void	ft_free_token(t_token *token);
 char	*ft_truncate(char *str, int start, int end);
 char	*ft_getenv(char *var, char **env);
 
+
+
+
+
+
+
 //  EXEC
 
 // exec.c
 
-void ft_close_fd(int *fd);
+int ft_exec_simple_builtin(t_command *command, t_shell *shell);
 int ft_exec (t_shell *shell);
 
-// heredoc
+// utils.c
 
-int ft_heredoc(char *lim);
+void ft_close_fd(int *fd);
+int ft_is_builtin(t_command *command);
+int ft_exec_builtin(t_command *command, t_shell *shell);
+
+// redirout.c
+
+int ft_last_redir_in(t_redir *redir);
+int ft_last_redir_out(t_redir *redir);
+int ft_redirout(t_redir *redir);
+int ft_redir(t_redir *redir);
+
 
 // handleredir.c
 
-int ft_handle_redir(t_command *command);
+// int ft_handle_redir(t_command *command);
+
+
+
+
+
+
+
+
+
+
+
 
 // BUILTIN
 

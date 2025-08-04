@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 15:36:32 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 14:02:23 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/04 21:55:09 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_parsing(t_shell *shell)
 		return (printf("Your commands sucks\n"), 1);
 	if (ft_parser(shell) != 0)
 		return (printf("Parser failed\n"), 1);
+	if (ft_handle_heredocs(shell) != 0)
+		return (1);
 	add_history(shell->input);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:02:19 by anony             #+#    #+#             */
-/*   Updated: 2025/07/30 19:41:06 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/04 17:56:10 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,26 @@ int ft_echo(t_command *command)
     if (!command->args || ft_strncmp(command->args[0], "echo", 5) != 0)
         return (1);
     if (!command->args[1])
-        return (printf("\n"), 0);
+        return (write(1, "\n", 1), 0);
     if (ft_strncmp(command->args[1], "-n", 3) == 0)
         i = 2;
     else
         i = 1;
     while (i < ft_tab_len(command->args) - 1)
     {
-        printf("%s ", command->args[i]);
+        write(STDOUT_FILENO, command->args[i], ft_strlen(command->args[i]));
+        write(STDOUT_FILENO, " ", 1);
         i++;
     }
     if (command->args[i])
     {
         if (ft_strncmp(command->args[1], "-n", 3) == 0)
-            printf("%s", command->args[i]);
+            write(STDOUT_FILENO, command->args[i], ft_strlen(command->args[i]));
         else
-            printf("%s\n", command->args[i]);
+        {
+            write(STDOUT_FILENO, command->args[i], ft_strlen(command->args[i]));
+            write(STDOUT_FILENO, "\n", 1);
+        }
     }
     return (0);
 }

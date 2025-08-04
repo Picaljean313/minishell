@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 16:12:40 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/04 19:02:39 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_signal_handler(void)
 	i = 1;
 	while (i < NSIG)
 	{
-		if (i != SIGINT && i != SIGKILL && i != SIGSTOP
+		if (i != SIGINT && i != SIGKILL && i != SIGSTOP && i != SIGCHLD
 			&& !(i >= SIGRTMIN && i <= SIGRTMAX))
 			signal(i, SIG_IGN);
 		i++;

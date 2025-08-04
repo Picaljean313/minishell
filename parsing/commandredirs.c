@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 12:35:44 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 21:15:15 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/04 20:17:11 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	ft_add_redir(t_token *token, t_command *command)
 		return (1);
 	redir->type = token->type;
 	redir->file = ft_strdup(token->next->value);
+	redir->heredocfd = -1;
 	redir->next = NULL;
 	if (!command->redir)
 		command->redir = redir;
