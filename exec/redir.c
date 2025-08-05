@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:09:21 by anony             #+#    #+#             */
-/*   Updated: 2025/08/04 22:52:53 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/05 16:16:44 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int ft_redirout(t_redir *redir)
 int ft_redir(t_redir *redir)
 {
     if (!redir)
-        return (1);
+        return (0);
     while (redir)
     {
         if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)

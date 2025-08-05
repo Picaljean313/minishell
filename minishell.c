@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/08/04 20:42:42 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/05 16:23:45 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_signal_handler();
 	while (1)
 	{
+		printf("YOY\n");
 		res = ft_parsing(&shell);
 		if (res == 2)
 			return (ft_clean_shell(&shell), 2);
@@ -80,6 +81,8 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_exec(&shell) != 0)
 			return (ft_clean_shell(&shell), 2);
 		ft_clean_line(&shell);
+			
+			
 	}
 	rl_clear_history();
 	return (ft_clean_shell(&shell), 2);

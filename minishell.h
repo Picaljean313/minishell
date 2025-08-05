@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/04 22:50:22 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/05 16:24:03 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ typedef struct s_line
 	char *value;
 	struct s_line *next;
 }	t_line;
+
+typedef struct s_savedfds
+{
+	int fdin;
+	int fdout;
+	int fderr;
+}	t_savedfds;
 
 // signal.c
 
@@ -212,6 +219,8 @@ char	*ft_getenv(char *var, char **env);
 
 // exec.c
 
+int ft_create_std_dup(t_savedfds *fds);
+int ft_restore_savedfd(t_savedfds *fds);
 int ft_exec_simple_builtin(t_command *command, t_shell *shell);
 int ft_exec (t_shell *shell);
 
@@ -220,6 +229,10 @@ int ft_exec (t_shell *shell);
 void ft_close_fd(int *fd);
 int ft_is_builtin(t_command *command);
 int ft_exec_builtin(t_command *command, t_shell *shell);
+int ft_wait_pids(t_shell *shell);
+int ft_nb_commands(t_shell *shell);
+char *ft_get_path (t_command *command, t_shell *shell);
+void ft_close_heredoc(t_command *command);
 
 // redirout.c
 
