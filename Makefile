@@ -6,7 +6,7 @@
 #    By: anony <anony@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/24 12:33:08 by anony             #+#    #+#              #
-#    Updated: 2025/08/06 18:14:24 by anony            ###   ########.fr        #
+#    Updated: 2025/08/06 21:01:19 by anony            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC = cc
 
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
 
 NAME = minishell

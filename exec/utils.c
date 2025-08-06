@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:29:40 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 19:08:25 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 21:10:21 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,8 @@ char *ft_get_path (t_command *command, t_shell *shell)
 	char *cmd;
 	int i;
 
+	if (!command || !command->args || !command->args[0])
+		return (NULL);
     if (command->args[0][0] == '/')
     {
         cmdpath = ft_strdup(command->args[0]);

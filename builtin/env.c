@@ -6,17 +6,17 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:08 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 18:54:16 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 20:39:45 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_env(t_command *command, t_shell *shell)
+int	ft_env(t_command *command, t_shell *shell)
 {
-    int	i;
+	int	i;
 
-    if (!command->args || ft_strncmp(command->args[0], "env", 4) != 0)
+	if (!command->args || ft_strncmp(command->args[0], "env", 4) != 0)
 		return (1);
 	if (command->args[1])
 		return (0);
@@ -25,12 +25,12 @@ int ft_env(t_command *command, t_shell *shell)
 		return (0);
 	while (shell->env[i])
 	{
-        if (ft_strchr(shell->env[i], '='))
+		if (ft_strchr(shell->env[i], '='))
 		{
-		    ft_putstr_fd(shell->env[i], STDOUT_FILENO);
-		    ft_putstr_fd("\n", STDOUT_FILENO);
+			ft_putstr_fd(shell->env[i], STDOUT_FILENO);
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 		i++;
 	}
-    return (0);
+	return (0);
 }

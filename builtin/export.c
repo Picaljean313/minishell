@@ -6,37 +6,37 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:22 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 19:42:06 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 20:45:58 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_check_var(char *var)
+int	ft_check_var(char *var)
 {
-    int i;
-    
-    if (!ft_strchr(var, '='))
-        return (1);
-    if (!(ft_isalpha(var[0]) == 1 || var[0] == '_'))
-        return (1);
-    i = 1;
-    while (var[i] == '_' || ft_isalnum(var[i]) == 1)
-        i++;
-    if (var[i] != '=')
-        return (1);
-    return (0);
+	int	i;
+
+	if (!ft_strchr(var, '='))
+		return (1);
+	if (!(ft_isalpha(var[0]) == 1 || var[0] == '_'))
+		return (1);
+	i = 1;
+	while (var[i] == '_' || ft_isalnum(var[i]) == 1)
+		i++;
+	if (var[i] != '=')
+		return (1);
+	return (0);
 }
 
-char *ft_get_var(char *str)
+char	*ft_get_var(char *str)
 {
-    int i;
-    int len;
-    char *var;
+	int		i;
+	int		len;
+	char	*var;
 
-    len = 0;
-    while (str[len] && str[len] != '=')
-        len++;
+	len = 0;
+	while (str[len] && str[len] != '=')
+      len++;
     if (!str[len])
         return (NULL);
     var = malloc ((len + 2) * sizeof(char));

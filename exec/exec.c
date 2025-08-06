@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 20:19:10 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 21:20:11 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,12 @@ int ft_exec (t_shell *shell)
 				ft_close_heredoc(command);
 				ft_clean_shell(shell);
 				exit(g_signal);
+			}
+			if (!command || !command->args || !command->args[0])
+			{
+				ft_close_heredoc(command);
+				ft_clean_shell(shell);
+				exit(0);
 			}
 			path = ft_get_path(command, shell);
 			if (!path)

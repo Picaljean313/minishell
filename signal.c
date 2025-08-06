@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 20:08:01 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 21:45:31 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_sigint_heredoc(int sig)
 		free(hdctx);
 	}
 	g_signal = 130;
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	exit (130);
 }
 
