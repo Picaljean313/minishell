@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:58:06 by anony             #+#    #+#             */
-/*   Updated: 2025/07/25 19:49:10 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 18:45:14 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_check_params(int argc, char **argv, char **env)
 {
 	if (argc != 1 || !argv || !env)
 	{
-		printf("Check params");
+		ft_putstr_fd("Check params", STDERR_FILENO);
 		return (1);
 	}
 	return (0);

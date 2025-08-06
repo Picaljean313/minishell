@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:22 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 17:08:14 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:42:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int ft_export(t_command *com, t_shell *shell)
     while (com->args[i])
     {
         if (ft_check_var(com->args[i]) != 0)
-            printf("Wrong argument\n");
+            ft_putstr_fd("Wrong argument\n", STDERR_FILENO);
         else
         {
             value = ft_strdup(ft_strchr(com->args[i], '=') + 1);

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:29:40 by anony             #+#    #+#             */
-/*   Updated: 2025/08/05 12:47:28 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:08:25 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int ft_is_builtin(t_command *command)
 }
 
 
-int ft_exec_builtin(t_command *command, t_shell *shell)
+int ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds)
 {
     if (!command->args)
 		return (2);
@@ -57,7 +57,7 @@ int ft_exec_builtin(t_command *command, t_shell *shell)
 		if (ft_env(command, shell) != 0)
 			return (1);
 	if (ft_strncmp(command->args[0], "exit", 5) == 0)
-		if (ft_exit(command) != 0)
+		if (ft_exit(command, shell, fds) != 0)
 			return (1);
 	if (ft_strncmp(command->args[0], "export", 7) == 0)
 		if (ft_export(command, shell) != 0)
@@ -75,12 +75,24 @@ int ft_exec_builtin(t_command *command, t_shell *shell)
 int ft_wait_pids(t_shell *shell)
 {
 	t_command *command;
+	int status;
+	int sig;
 
 	command = shell->commands;
 	while (command)
 	{
-		if (waitpid(command->pid, NULL, 0) == -1)
+		if (waitpid(command->pid, &status, 0) == -1)
 			return (perror("waitpid"), 1);
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				g_signal = 130;
+			else if (sig == SIGQUIT)
+				g_signal = 131;
+		}
+		else if (WIFEXITED(status))
+			g_signal = WEXITSTATUS(status);
 		command = command->next;
 	}
 	return (0);

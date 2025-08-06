@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/29 18:06:28 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 19:43:09 by anony            ###   ########.fr       */
+/*   Created: 2025/08/06 18:13:42 by anony             #+#    #+#             */
+/*   Updated: 2025/08/06 18:34:41 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_pwd(t_command *command)
+t_hdcontext	*ft_get_hd_ctx(t_hdcontext *set)
 {
-    char *cwd;
+	static t_hdcontext	*ctx;
 
-    if (!command->args || ft_strncmp(command->args[0], "pwd", 4) != 0)
-		return (1);
-    cwd = getcwd(NULL, 0);
-    if (!cwd)
-        return (perror("getcwd"), 1);
-    ft_putstr_fd(cwd, STDOUT_FILENO);
-    free(cwd);
-    return (0);
+	if (set != NULL)
+		ctx = set;
+	return (ctx);
+}
+
+void	ft_free_heredoc_context(t_hdcontext *hdctx)
+{
+	if (!hdctx)
+		return ;
+	if (hdctx->value)
+	{
+		free(hdctx->value);
+		hdctx->value = NULL;
+	}
+	ft_free_lines(hdctx->lines);
+	ft_close_fd(&hdctx->fd);
+	ft_clean_shell(hdctx->shell);
+	free(hdctx);
 }

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/05 16:24:03 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 20:14:35 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <errno.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -33,6 +34,13 @@ typedef enum e_type
 	REDIR_HEREDOC,
 	REDIR_APPEND
 }	t_type;
+
+typedef enum e_context
+{
+	MAIN,
+	HEREDOC,
+	CHILD
+}	t_context;
 
 typedef struct s_token
 {
@@ -87,10 +95,17 @@ typedef struct s_savedfds
 	int fderr;
 }	t_savedfds;
 
+typedef struct s_hdcontext
+{
+	char *value;
+	t_line *lines;
+	int fd;
+	t_shell *shell;
+}	t_hdcontext;
+
 // signal.c
 
-void	ft_handle_sigint(int sig);
-void	ft_signal_handler(void);
+void	ft_signal_handler(t_context context);
 
 // parsing.c
 
@@ -153,6 +168,8 @@ int		ft_expand(t_shell *shell);
 
 // heredoc
 
+void ft_free_lines(t_line *lines);
+t_hdcontext *ft_get_hd_ctx(t_hdcontext *set);
 int ft_heredoc(char *lim, t_shell *shell);
 int ft_handle_heredocs(t_shell *shell);
 
@@ -208,6 +225,13 @@ int		ft_replace_vars(char **valad, t_shell *shell);
 void	ft_free_token(t_token *token);
 char	*ft_truncate(char *str, int start, int end);
 char	*ft_getenv(char *var, char **env);
+void	ft_free_lines(t_line *lines);
+int	ft_add_line(t_line **lines, char *value);
+
+// utils2.c
+
+t_hdcontext	*ft_get_hd_ctx(t_hdcontext *set);
+void ft_free_heredoc_context(t_hdcontext *hdctx);
 
 
 
@@ -221,14 +245,14 @@ char	*ft_getenv(char *var, char **env);
 
 int ft_create_std_dup(t_savedfds *fds);
 int ft_restore_savedfd(t_savedfds *fds);
-int ft_exec_simple_builtin(t_command *command, t_shell *shell);
+int ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
 int ft_exec (t_shell *shell);
 
 // utils.c
 
 void ft_close_fd(int *fd);
 int ft_is_builtin(t_command *command);
-int ft_exec_builtin(t_command *command, t_shell *shell);
+int ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
 int ft_wait_pids(t_shell *shell);
 int ft_nb_commands(t_shell *shell);
 char *ft_get_path (t_command *command, t_shell *shell);
@@ -274,7 +298,7 @@ int ft_env(t_command *command, t_shell *shell);
 
 // exit.c
 
-int ft_exit(t_command *command);
+int ft_exit(t_command *command, t_shell *shell, t_savedfds *fds);
 
 // export
 

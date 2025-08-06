@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:46 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 17:57:00 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 20:00:14 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int ft_unset_env_var(char *var, t_shell *shell)
     if (!var)
         return (1);
     if (ft_check_unset_var(var) != 0)
-        return (printf("Wrong argument\n"), 0);
+        return (ft_putstr_fd("Wrong argument\n", STDERR_FILENO), 0);
     varext = ft_strjoin(var, "=");
     len = 0;
     ind = -1;

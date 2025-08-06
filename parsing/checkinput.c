@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:45:41 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 13:50:51 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 18:27:13 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ int	ft_check_wrong_operator(char *input, int ind)
 	return (0);
 }
 
-int ft_check_empty_line(char *input)
+int	ft_check_empty_line(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!input[0])
 		return (1);
 	while (input[i])
 	{
-		if (!(input[i] == ' ' || (input[i] <= 13 && input[i] >=9)))
+		if (!(input[i] == ' ' || (input[i] <= 13 && input[i] >= 9)))
 			return (0);
 		i++;
 	}

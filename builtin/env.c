@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:08 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 16:20:19 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 18:54:16 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int ft_env(t_command *command, t_shell *shell)
 	while (shell->env[i])
 	{
         if (ft_strchr(shell->env[i], '='))
-		    printf("%s\n", shell->env[i]);
+		{
+		    ft_putstr_fd(shell->env[i], STDOUT_FILENO);
+		    ft_putstr_fd("\n", STDOUT_FILENO);
+		}
 		i++;
 	}
     return (0);

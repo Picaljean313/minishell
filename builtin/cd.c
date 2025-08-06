@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:05:58 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 16:17:34 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 18:50:14 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ char *ft_new_path(t_command *command, char *cwd, t_shell *shell)
         return (NULL);
     return (newpath);
 }
-
-
-// A VIRER
-void	ft_show_bis(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (!tab)
-	{
-		printf("no tab\n");
-		return ;
-	}
-	printf("start\n");
-	while (tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-	printf("end\n");
-}
-
 
 int	ft_set_env_value(char *value, char *var, t_shell *shell)
 {
@@ -91,10 +69,7 @@ int ft_cd(t_command *command, t_shell *shell)
     char *newpath;
     char *oldcwd;
 
-    char *avirer;
-
     (void)shell;
-    
     if (!command->args || ft_strncmp(command->args[0], "cd", 3) != 0)
         return (1);
     oldcwd = getcwd(NULL, 0);
@@ -112,12 +87,30 @@ int ft_cd(t_command *command, t_shell *shell)
         return (free(cwd), free(newpath), free(oldcwd), 1);
     if (ft_set_env_value(cwd, "PWD=", shell) != 0)
         return (free(cwd), free(newpath), free(oldcwd), 1);
-
-        
-    avirer = ft_getenv("PWD", shell->env);
-    printf("%s\n", avirer);
-    free(avirer);
-
-    
     return (free(cwd), free(newpath), free(oldcwd), 0);
 }
+
+// pour voir le path :
+// void	ft_show_bis(char **tab)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (!tab)
+// 	{
+// 		printf("no tab\n");
+// 		return ;
+// 	}
+// 	printf("start\n");
+// 	while (tab[i])
+// 	{
+// 		printf("%s\n", tab[i]);
+// 		i++;
+// 	}
+// 	printf("end\n");
+// }
+// A la fin de cd avant le return:
+//    char *avirer;
+//     avirer = ft_getenv("PWD", shell->env);
+//     printf("%s\n", avirer);
+//     free(avirer);

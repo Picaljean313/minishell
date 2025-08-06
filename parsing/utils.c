@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 15:27:22 by anony             #+#    #+#             */
-/*   Updated: 2025/07/30 15:08:11 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 18:06:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,47 @@ char	*ft_getenv(char *var, char **env)
 		i++;
 	}
 	return (NULL);
+}
+
+void	ft_free_lines(t_line *lines)
+{
+	t_line	*temp;
+
+	if (!lines)
+		return ;
+	while (lines)
+	{
+		temp = lines;
+		lines = lines->next;
+		if (temp->value)
+		{
+			free(temp->value);
+			temp->value = NULL;
+		}
+		free(temp);
+		temp = NULL;
+	}
+	return ;
+}
+
+int	ft_add_line(t_line **lines, char *value)
+{
+	t_line	*line;
+	t_line	*temp;
+
+	line = malloc(sizeof(t_line));
+	if (!line)
+		return (1);
+	line->value = ft_strdup(value);
+	line->next = NULL;
+	if (!*lines)
+		*lines = line;
+	else
+	{
+		temp = *lines;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = line;
+	}
+	return (0);
 }

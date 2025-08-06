@@ -6,140 +6,105 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 17:52:54 by anony             #+#    #+#             */
-/*   Updated: 2025/08/05 14:14:11 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/06 18:33:05 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_free_lines(t_line *lines)
+int	ft_handle_heredoc_line(t_hdcontext *hdctx, char *lim)
 {
-    t_line *temp;
-
-	if (!lines)
-		return ;
-	while (lines)
+	hdctx->value = readline("> ");
+	if (!hdctx->value)
+		return (1);
+	if (ft_strncmp(hdctx->value, lim, ft_strlen(lim) + 1) == 0)
 	{
-		temp = lines;
-		lines = lines->next;
-		if (temp->value)
-		{
-			free(temp->value);
-			temp->value = NULL;
-		}
-		free(temp);
-		temp = NULL;
+		free(hdctx->value);
+		hdctx->value = NULL;
+		return (1);
 	}
-	return ;
+	if (ft_add_line(&hdctx->lines, hdctx->value) != 0)
+	{
+		ft_free_heredoc_context(hdctx);
+		exit(2);
+	}
+	free(hdctx->value);
+	hdctx->value = NULL;
+	return (0);
 }
 
-int ft_add_line(t_line **lines, char *value)
+int	ft_fill_heredoc(char *lim, int fd, t_shell *shell)
 {
-    t_line *line;
-    t_line *temp;
+	t_line		*temp;
+	t_hdcontext	*hdctx;
 
-    line = malloc(sizeof(t_line));
-    if (!line)
-        return (1);
-    line->value = ft_strdup(value);
-    line->next = NULL;
-    if (!*lines)
-        *lines = line;
-    else
-    {
-        temp = *lines;
-        while (temp->next)
-            temp = temp->next;
-        temp->next = line;
-    }
-    return (0);
+	hdctx = malloc(sizeof(t_hdcontext));
+	hdctx->value = NULL;
+	hdctx->lines = NULL;
+	hdctx->fd = fd;
+	hdctx->shell = shell;
+	ft_get_hd_ctx(hdctx);
+	ft_signal_handler(HEREDOC);
+	while (1)
+	{
+		if (ft_handle_heredoc_line(hdctx, lim) == 1)
+			break ;
+	}
+	temp = hdctx->lines;
+	while (temp)
+	{
+		write(fd, temp->value, ft_strlen(temp->value));
+		write(fd, "\n", 1);
+		temp = temp->next;
+	}
+	ft_free_heredoc_context(hdctx);
+	exit(0);
 }
 
-int ft_fill_heredoc(char *lim, int fd, t_shell *shell)
+int	ft_heredoc(char *lim, t_shell *shell)
 {
-    t_line *lines;
-    t_line *temp;
-    char    *value;
+	int		pipefd[2];
+	pid_t	pid;
 
-    lines = NULL;
-    while (1)
-    {
-        value = readline("> ");
-        if (!value)
-            break ;
-        if (ft_strncmp(value, lim, ft_strlen(lim) + 1) == 0)
-        {
-            free(value);
-            break ;
-        }
-        if (ft_add_line(&lines, value) != 0)
-        {
-            free(value);
-            ft_free_lines(lines);
-            ft_close_fd(&fd);
-            ft_clean_shell(shell);
-            exit(2);
-        }
-        free(value);
-    }
-    temp = lines;
-    while (temp)
-    {
-        write(fd, temp->value, ft_strlen(temp->value));
-        write(fd, "\n", 1);
-        temp = temp->next;
-    }
-    ft_free_lines(lines);
-    ft_close_fd(&fd);
-    ft_clean_shell(shell);
-    exit(0);
+	if (pipe(pipefd) == -1)
+		return (perror("pipe"), -1);
+	pid = fork();
+	if (pid < 0)
+		return (perror("fork"), 1);
+	if (pid == 0)
+	{
+		ft_close_fd(&pipefd[0]);
+		ft_fill_heredoc(lim, pipefd[1], shell);
+	}
+	signal(SIGINT, SIG_IGN);
+	ft_close_fd(&pipefd[1]);
+	if (waitpid(pid, NULL, 0) == -1)
+		return (perror("waitpid"), 1);
+	return (pipefd[0]);
 }
 
-int ft_heredoc(char *lim, t_shell *shell)
+int	ft_handle_heredocs(t_shell *shell)
 {
-    int pipefd[2];
-    pid_t pid;
+	t_command	*command;
+	t_redir		*redir;
 
-    if (pipe(pipefd) == -1)
-        return (perror("pipe"), -1);
-    pid = fork();
-    if (pid < 0)
-        return (perror("fork"), 1);
-    if (pid == 0)
-    {
-        signal(SIGINT, SIG_DFL);
-        ft_close_fd(&pipefd[0]);
-        ft_fill_heredoc(lim, pipefd[1], shell);
-    }
-    signal(SIGINT, SIG_IGN);
-    ft_close_fd(&pipefd[1]);
-    if (waitpid(pid, NULL, 0) == -1)
-        return (perror("waitpid"), 1);
-    return (pipefd[0]);
-}
-
-int ft_handle_heredocs(t_shell *shell)
-{
-    t_command *command;
-    t_redir *redir;
-
-    if (!shell->commands)
-        return (1);
-    command = shell->commands;
-    while (command)
-    {
-        redir = command->redir;
-        while (redir)
-        {
-            if (redir->type == REDIR_HEREDOC)
-            {
-                redir->heredocfd = ft_heredoc(redir->file, shell);
-                if (ft_last_redir_in(redir) == 0)
-                    ft_close_fd(&redir->heredocfd);
-            }
-            redir = redir->next;
-        }
-        command = command->next;
-    }
-    return (0);
+	if (!shell->commands)
+		return (1);
+	command = shell->commands;
+	while (command)
+	{
+		redir = command->redir;
+		while (redir)
+		{
+			if (redir->type == REDIR_HEREDOC)
+			{
+				redir->heredocfd = ft_heredoc(redir->file, shell);
+				if (ft_last_redir_in(redir) == 0)
+					ft_close_fd(&redir->heredocfd);
+			}
+			redir = redir->next;
+		}
+		command = command->next;
+	}
+	return (0);
 }
