@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 17:36:25 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 11:13:22 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:11:38 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	ft_check_commands(t_shell *shell)
 {
 	t_token	*token;
 
+	if (!shell->tokens)
+		return (0);
 	if (ft_check_empty_command(shell->tokens) != 0)
 		return (1);
 	token = shell->tokens;

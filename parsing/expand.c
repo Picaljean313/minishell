@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:23:38 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 16:32:33 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:10:25 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_expand(t_shell *shell)
 	t_token	*token;
 
 	if (!shell->tokens)
-		return (1);
+		return (0);
 	token = shell->tokens;
 	while (token)
 	{

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:02:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 20:36:43 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 18:44:12 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ int	ft_echo(t_command *command)
 		return (1);
 	if (!command->args[1])
 		return (ft_putstr_fd("\n", STDOUT_FILENO), 0);
-	if (ft_strncmp(command->args[1], "-n", 3) == 0)
-		i = 2;
-	else
-		i = 1;
+	i = 1;
+	while (ft_strncmp(command->args[i], "-n", 3) == 0)
+		i++;
 	while (i < ft_tab_len(command->args) - 1)
 	{
 		ft_putstr_fd(command->args[i], STDOUT_FILENO);

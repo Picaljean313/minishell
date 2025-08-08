@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:53:56 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 15:23:26 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 20:23:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,13 @@ int	ft_restore_savedfd(t_savedfds *fds)
 int	ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds)
 {
 	t_redir	*redir;
+	int		res;
 
 	redir = command->redir;
-	if (ft_redir(redir) != 0)
+	res = ft_redir(redir);
+	if ( res == -1)
+		return (-1);
+	if ( res == 1)
 		return (1);
 	if (ft_exec_builtin (command, shell, fds) != 0)
 		return (1);

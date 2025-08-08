@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:29:40 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 15:40:15 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:00:51 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,23 @@ int	ft_wait_pids(t_shell *shell)
 {
 	t_command	*command;
 	int			status;
-	int			sig;
+	int			newline;
+	int			coredump;
 
 	command = shell->commands;
+	newline = 0;
+	coredump = 0;
 	while (command)
 	{
 		if (waitpid(command->pid, &status, 0) == -1)
 			return (perror("waitpid"), 1);
-		if (WIFSIGNALED(status))
-		{
-			sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				g_signal = 130;
-			else if (sig == SIGQUIT)
-				g_signal = 131;
-		}
-		else if (WIFEXITED(status))
-			g_signal = WEXITSTATUS(status);
+		ft_print_after_signal(status, &newline, &coredump);
 		command = command->next;
 	}
+	if (coredump == 1)
+		ft_putstr_fd("Quit (core dumped)", STDOUT_FILENO);
+	if (newline == 1)
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }
 

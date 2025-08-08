@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 15:14:20 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 20:45:38 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,7 @@ int	ft_exec(t_shell *shell)
 	if (!shell->commands)
 		return (ft_close_savedfd(&fds), free(exec), 1);
 	if (!shell->commands->next && ft_is_builtin(shell->commands) == 0)
-	{
-		ft_close_savedfd(&fds);
 		return (free(exec), ft_simple_builtin(shell, &fds));
-	}
 	if (ft_exec_commands(shell, exec, &fds) != 0)
 		return (ft_close_savedfd(&fds), free(exec), 1);
 	return (free(exec), 0);

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:45:41 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 18:27:13 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:10:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_check_input(char *input)
 	dq = 0;
 	last = 0;
 	if (ft_check_empty_line(input) != 0)
-		return (1);
+		return (0);
 	while (input[i])
 	{
 		if (sq == 0 && dq == 0)

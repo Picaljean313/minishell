@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:28 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 15:06:37 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 18:37:57 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_pwd(t_command *command)
 		return (perror("getcwd"), 1);
 	}
 	ft_putstr_fd(cwd, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	free(cwd);
 	return (0);
 }

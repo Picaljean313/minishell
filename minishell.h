@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 16:32:13 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 20:59:39 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,10 +292,16 @@ char	*ft_get_path(t_command *command, t_shell *shell);
 void	ft_close_command_heredoc(t_command *command);
 void	ft_close_heredoc(t_shell *shell);
 
+// utils3.c
+
+int		ft_last_redir_out(t_redir *redir);
+int		ft_last_redir_in(t_redir *redir);
+void	ft_print_after_signal(int status, int *newline, int *coredump);
+
 // redir.c
 
-int		ft_last_redir_in(t_redir *redir);
-int		ft_last_redir_out(t_redir *redir);
+int		ft_redir_heredoc(t_redir *redir);
+int		ft_redir_input(t_redir *redir);
 int		ft_redirout(t_redir *redir);
 int		ft_redir(t_redir *redir);
 

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:22 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 15:09:03 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 17:37:33 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_export(t_command *com, t_shell *shell)
 		if (ft_check_var(com->args[i]) != 0)
 		{
 			g_signal = 1;
-			return (ft_putstr_fd("Wrong argument\n", STDERR_FILENO), 1);
+			return (ft_putstr_fd("Wrong argument\n", STDERR_FILENO), 0);
 		}
 		else
 		{

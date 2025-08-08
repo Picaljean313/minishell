@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:20:00 by anony             #+#    #+#             */
-/*   Updated: 2025/08/01 20:17:46 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:12:16 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	ft_parser(t_shell *shell)
 
 	token = shell->tokens;
 	if (!token)
-		return (1);
+		return (0);
 	while (token)
 	{
 		command = malloc(sizeof(t_command));

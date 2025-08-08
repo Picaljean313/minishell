@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 16:31:09 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 21:07:11 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_signal_handler(t_context context)
 	else if (context == CHILD)
 	{
 		signal(SIGINT, ft_sigint_child);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else if (context == HEREDOC)
 	{
