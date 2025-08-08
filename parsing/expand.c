@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:23:38 by anony             #+#    #+#             */
-/*   Updated: 2025/07/31 15:34:21 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 11:19:02 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void	ft_remove_empty_tokens(t_shell *shell)
 		temp = token->next;
 		if (!temp)
 			return ;
-		if (ft_strncmp(temp->value, "", 1) == 0
+		if ((ft_strncmp(temp->value, "", 1) == 0
 			|| ft_not_only_spaces(temp->value) != 0)
+			&& token->type != REDIR_HEREDOC)
 		{
 			token->next = temp->next;
 			free(temp->value);

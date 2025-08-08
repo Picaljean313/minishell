@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 20:14:35 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 14:27:46 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,16 @@ typedef struct s_hdcontext
 	int fd;
 	t_shell *shell;
 }	t_hdcontext;
+
+typedef struct s_exec
+{
+	int prevfd;
+	int nbcom;
+	int i;
+	pid_t pid;
+	char *path;
+	t_command *command;
+}	t_exec;
 
 // signal.c
 
@@ -233,12 +243,6 @@ int	ft_add_line(t_line **lines, char *value);
 t_hdcontext	*ft_get_hd_ctx(t_hdcontext *set);
 void ft_free_heredoc_context(t_hdcontext *hdctx);
 
-
-
-
-
-
-
 //  EXEC
 
 // exec.c
@@ -248,6 +252,21 @@ int ft_restore_savedfd(t_savedfds *fds);
 int ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
 int ft_exec (t_shell *shell);
 
+// exec2.c
+
+int ft_has_output_redir(t_redir *redir);
+int ft_simple_builtin(t_shell *shell, t_savedfds *fds);
+void ft_init_exec(t_exec *exec, t_shell *shell);
+void ft_child_redir(t_shell *shell, t_exec *exec, t_savedfds *fds);
+
+// exec3.c
+
+int ft_create_std_dup(t_savedfds *fds);
+void ft_close_savedfd(t_savedfds *fds);
+int ft_restore_savedfd(t_savedfds *fds);
+int ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
+void ft_parent(t_exec *exec, int fd);
+
 // utils.c
 
 void ft_close_fd(int *fd);
@@ -256,7 +275,8 @@ int ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
 int ft_wait_pids(t_shell *shell);
 int ft_nb_commands(t_shell *shell);
 char *ft_get_path (t_command *command, t_shell *shell);
-void ft_close_heredoc(t_command *command);
+void ft_close_command_heredoc(t_command *command);
+void ft_close_heredoc(t_shell *shell);
 
 // redirout.c
 

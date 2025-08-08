@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 17:52:54 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 21:49:32 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 11:20:50 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	ft_handle_heredoc_line(t_hdcontext *hdctx, char *lim)
 	hdctx->value = readline("> ");
 	if (!hdctx->value)
 		return (1);
-	if (ft_strncmp(hdctx->value, lim, ft_strlen(lim) + 1) == 0)
+	if ((lim && lim[0] == '\0' && hdctx->value[0] == '\0')
+		|| ft_strncmp(hdctx->value, lim, ft_strlen(lim) + 1) == 0)
 	{
 		free(hdctx->value);
 		hdctx->value = NULL;
@@ -53,8 +54,8 @@ int	ft_fill_heredoc(char *lim, int fd, t_shell *shell)
 	temp = hdctx->lines;
 	while (temp)
 	{
-		write(fd, temp->value, ft_strlen(temp->value));
-		write(fd, "\n", 1);
+		ft_putstr_fd(temp->value, fd);
+		ft_putstr_fd("\n", fd);
 		temp = temp->next;
 	}
 	ft_free_heredoc_context(hdctx);
@@ -82,7 +83,7 @@ int	ft_heredoc(char *lim, t_shell *shell)
 	if (waitpid(pid, &status, 0) == -1)
 		return (perror("waitpid"), ft_close_fd(&pipefd[0]), -1);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-		return (ft_close_fd(&pipefd[0]), -1);
+		return (g_signal = 130, ft_close_fd(&pipefd[0]), -1);
 	return (pipefd[0]);
 }
 
@@ -104,8 +105,6 @@ int	ft_handle_heredocs(t_shell *shell)
 				redir->heredocfd = ft_heredoc(redir->file, shell);
 				if (redir->heredocfd == -1)
 					return (1);
-				if (ft_last_redir_in(redir) == 0)
-					ft_close_fd(&redir->heredocfd);
 			}
 			redir = redir->next;
 		}

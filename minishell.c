@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 18:44:29 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 11:46:14 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	main(int argc, char **argv, char **envp)
 	int		res;
 
 	if (ft_check_params(argc, argv, envp) != 0)
-		return (2);
+		return (1);
 	if (ft_init_shell(&shell, envp) != 0)
-		return (ft_clean_shell(&shell), 2);
+		return (ft_clean_shell(&shell), 1);
 	while (1)
 	{
 		ft_signal_handler(MAIN);
@@ -35,9 +35,9 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		if (ft_exec(&shell) != 0)
-			return (ft_clean_shell(&shell), 2);
+			return (ft_clean_shell(&shell), 1);
 		ft_clean_line(&shell);
 	}
 	rl_clear_history();
-	return (ft_clean_shell(&shell), 2);
+	return (ft_clean_shell(&shell), g_signal);
 }

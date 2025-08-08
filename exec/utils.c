@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:29:40 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 21:10:21 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 12:36:07 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,15 +179,38 @@ char *ft_get_path (t_command *command, t_shell *shell)
 	return (ft_free_split_path(splitpath), NULL);
 }
 
-void ft_close_heredoc(t_command *command)
+void ft_close_command_heredoc(t_command *command)
 {
 	t_redir *redir;
 
+	if (!command)
+		return ;
 	redir = command->redir;
 	while (redir)
 	{
 		if (redir->heredocfd != -1)
 			ft_close_fd(&redir->heredocfd);
 		redir = redir->next;
+	}
+}
+
+void ft_close_heredoc(t_shell *shell)
+{
+	t_redir *redir;
+	t_command *command;
+
+	if (!shell || !shell->commands)
+		return ;
+	command = shell->commands;
+	while (command)
+	{
+		redir = command->redir;
+		while (redir)
+		{
+			if (redir->heredocfd != -1)
+				ft_close_fd(&redir->heredocfd);
+			redir = redir->next;
+		}
+		command = command->next;
 	}
 }

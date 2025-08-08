@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 21:45:31 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 11:28:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_sigint_child(int sig)
 	return ;
 }
 
-void ft_set_signal(t_context context)
+void ft_signal_handler(t_context context)
 {
 	if (context == MAIN)
 	{
@@ -71,18 +71,18 @@ void ft_set_signal(t_context context)
 	}
 }
 
-void	ft_signal_handler(t_context context)
-{
-	int	i;
+// void	ft_signal_handler(t_context context)
+// {
+// 	int	i;
 
-	ft_set_signal(context);
-	i = 1;
-	while (i < NSIG)
-	{
-		if (i != SIGINT && i != SIGQUIT && i != SIGKILL && i != SIGSTOP
-			&& i != SIGCHLD && i != SIGPIPE
-			&& !(i >= SIGRTMIN && i <= SIGRTMAX))
-			signal(i, SIG_IGN);
-		i++;
-	}
-}
+// 	ft_set_signal(context);
+// 	i = 1;
+// 	while (i < NSIG)
+// 	{
+// 		if (i != SIGINT && i != SIGQUIT && i != SIGKILL && i != SIGSTOP
+// 			&& i != SIGCHLD && i != SIGPIPE
+// 			&& !(i >= SIGRTMIN && i <= SIGRTMAX))
+// 			signal(i, SIG_IGN);
+// 		i++;
+// 	}
+// }

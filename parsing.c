@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 15:36:32 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 18:45:57 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 11:39:59 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ int	ft_parsing(t_shell *shell)
 	if (!shell->input)
 		return (2);
 	if (ft_check_input(shell->input) != 0)
-		return (ft_putstr_fd("Bad input\n", STDERR_FILENO), 1);
+		return (g_signal = 2, ft_putstr_fd("Bad input\n", STDERR_FILENO), 1);
 	if (ft_lexer(shell) != 0)
-		return (ft_putstr_fd("Lexer failed\n", STDERR_FILENO), 1);
+		return (g_signal = 1, ft_putstr_fd("Lexer fail\n", STDERR_FILENO), 1);
 	if (ft_expand(shell) != 0)
-		return (ft_putstr_fd("Expand failed\n", STDERR_FILENO), 1);
+		return (g_signal = 1, ft_putstr_fd("Expand fail\n", STDERR_FILENO), 1);
 	if (ft_check_commands(shell) != 0)
-		return (ft_putstr_fd("Bad command\n", STDERR_FILENO), 1);
+		return (g_signal = 2, ft_putstr_fd("Bad command\n", STDERR_FILENO), 1);
 	if (ft_parser(shell) != 0)
-		return (ft_putstr_fd("Parser failed\n", STDERR_FILENO), 1);
+		return (g_signal = 1, ft_putstr_fd("Parser fail\n", STDERR_FILENO), 1);
 	if (ft_handle_heredocs(shell) != 0)
 		return (1);
 	add_history(shell->input);

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 20:42:14 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 10:58:51 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_exit(t_command *command, t_shell *shell, t_savedfds *fds)
 	{
 		g_signal = 2;
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		return (ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO), 0);
+		return (ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO), 1);
 	}
 	if (command->args[1] && ft_is_numeric(command->args[1]) != 0)
 	{
