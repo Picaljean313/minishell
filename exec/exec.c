@@ -6,13 +6,13 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 14:56:35 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 15:14:20 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_exec_child(t_shell *shell, t_exec *exec)
+void	ft_exec_child(t_shell *shell, t_exec *exec)
 {
 	exec->path = ft_get_path(exec->command, shell);
 	if (!exec->path)
@@ -38,7 +38,7 @@ void ft_exec_child(t_shell *shell, t_exec *exec)
 	}
 }
 
-void ft_child(t_shell *shell, t_exec *exec, t_savedfds *fds)
+void	ft_child(t_shell *shell, t_exec *exec, t_savedfds *fds)
 {
 	ft_signal_handler(CHILD);
 	ft_close_savedfd(fds);
@@ -63,11 +63,10 @@ void ft_child(t_shell *shell, t_exec *exec, t_savedfds *fds)
 	ft_exec_child(shell, exec);
 }
 
-
-int ft_fork(t_shell *shell, t_exec *exec, t_savedfds *fds)
+int	ft_fork(t_shell *shell, t_exec *exec, t_savedfds *fds)
 {
-	int pipefd[2];
-	
+	int	pipefd[2];
+
 	if (exec->i < exec->nbcom - 1)
 		if (pipe(pipefd) == -1)
 			return (perror("pipe"), 1);
@@ -83,7 +82,7 @@ int ft_fork(t_shell *shell, t_exec *exec, t_savedfds *fds)
 			if (ft_has_output_redir(exec->command->redir) != 0)
 				dup2(pipefd[1], STDOUT_FILENO);
 		if (exec->nbcom > 1 && exec->i < exec->nbcom - 1)
-			ft_close_fd(&pipefd[1]);		
+			ft_close_fd(&pipefd[1]);
 		ft_child(shell, exec, fds);
 	}
 	if (exec->i != 0)
@@ -93,7 +92,7 @@ int ft_fork(t_shell *shell, t_exec *exec, t_savedfds *fds)
 	return (ft_parent(exec, pipefd[0]), 0);
 }
 
-int ft_exec_commands(t_shell *shell, t_exec *exec, t_savedfds *fds)
+int	ft_exec_commands(t_shell *shell, t_exec *exec, t_savedfds *fds)
 {
 	if (!exec->command)
 		return (1);
@@ -101,7 +100,7 @@ int ft_exec_commands(t_shell *shell, t_exec *exec, t_savedfds *fds)
 	{
 		if (ft_fork(shell, exec, fds) != 0)
 			return (1);
-        exec->i++;
+	exec->i++;
 		exec->command = exec->command->next;
 	}
 	if (ft_wait_pids(shell) != 0)
@@ -111,7 +110,6 @@ int ft_exec_commands(t_shell *shell, t_exec *exec, t_savedfds *fds)
 		return (1);
 	return (0);
 }
-
 
 // void ft_show(t_command *command)
 // {
@@ -125,10 +123,10 @@ int ft_exec_commands(t_shell *shell, t_exec *exec, t_savedfds *fds)
 // 	}
 // }
 
-int ft_exec(t_shell *shell)
+int	ft_exec(t_shell *shell)
 {
-	t_savedfds fds;
-	t_exec *exec;
+	t_savedfds	fds;
+	t_exec		*exec;
 
 	exec = malloc(sizeof(t_exec));
 	if (!exec)
@@ -139,8 +137,11 @@ int ft_exec(t_shell *shell)
 	if (!shell->commands)
 		return (ft_close_savedfd(&fds), free(exec), 1);
 	if (!shell->commands->next && ft_is_builtin(shell->commands) == 0)
-		return (ft_close_savedfd(&fds), free(exec), ft_simple_builtin(shell, &fds));
+	{
+		ft_close_savedfd(&fds);
+		return (free(exec), ft_simple_builtin(shell, &fds));
+	}
 	if (ft_exec_commands(shell, exec, &fds) != 0)
-		return (ft_close_savedfd(&fds), free(exec), 1);	
+		return (ft_close_savedfd(&fds), free(exec), 1);
 	return (free(exec), 0);
 }

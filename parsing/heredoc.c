@@ -6,13 +6,13 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 17:52:54 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 11:20:50 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 16:30:15 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_handle_heredoc_line(t_hdcontext *hdctx, char *lim)
+int	ft_handle_heredoc_line(t_ctxt *hdctx, char *lim)
 {
 	hdctx->value = readline("> ");
 	if (!hdctx->value)
@@ -36,10 +36,10 @@ int	ft_handle_heredoc_line(t_hdcontext *hdctx, char *lim)
 
 int	ft_fill_heredoc(char *lim, int fd, t_shell *shell)
 {
-	t_line		*temp;
-	t_hdcontext	*hdctx;
+	t_line	*temp;
+	t_ctxt	*hdctx;
 
-	hdctx = malloc(sizeof(t_hdcontext));
+	hdctx = malloc(sizeof(t_ctxt));
 	hdctx->value = NULL;
 	hdctx->lines = NULL;
 	hdctx->fd = fd;
@@ -66,7 +66,7 @@ int	ft_heredoc(char *lim, t_shell *shell)
 {
 	int		pipefd[2];
 	pid_t	pid;
-	int status;
+	int		status;
 
 	if (pipe(pipefd) == -1)
 		return (perror("pipe"), -1);

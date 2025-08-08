@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 11:28:06 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 16:31:09 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	ft_sigint_main(int sig)
 
 void	ft_sigint_heredoc(int sig)
 {
-	t_hdcontext *hdctx;
-	
+	t_ctxt	*hdctx;
+
 	(void)sig;
 	hdctx = ft_get_hd_ctx(NULL);
 	if (hdctx)
@@ -52,7 +52,7 @@ void	ft_sigint_child(int sig)
 	return ;
 }
 
-void ft_signal_handler(t_context context)
+void	ft_signal_handler(t_context context)
 {
 	if (context == MAIN)
 	{

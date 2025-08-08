@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 14:27:46 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 16:32:13 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <errno.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <errno.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -84,34 +84,43 @@ typedef struct s_vlim
 
 typedef struct s_line
 {
-	char *value;
-	struct s_line *next;
+	char			*value;
+	struct s_line	*next;
 }	t_line;
 
 typedef struct s_savedfds
 {
-	int fdin;
-	int fdout;
-	int fderr;
+	int	fdin;
+	int	fdout;
+	int	fderr;
 }	t_savedfds;
 
-typedef struct s_hdcontext
+typedef struct s_hdctxt
 {
-	char *value;
-	t_line *lines;
-	int fd;
-	t_shell *shell;
-}	t_hdcontext;
+	char	*value;
+	t_line	*lines;
+	int		fd;
+	t_shell	*shell;
+}	t_ctxt;
 
 typedef struct s_exec
 {
-	int prevfd;
-	int nbcom;
-	int i;
-	pid_t pid;
-	char *path;
-	t_command *command;
+	int			prevfd;
+	int			nbcom;
+	int			i;
+	pid_t		pid;
+	char		*path;
+	t_command	*command;
 }	t_exec;
+
+typedef struct s_exut
+{
+	char	*path;
+	char	**splitpath;
+	char	*cmdpath;
+	char	*cmd;
+	int		i;
+}	t_exut;
 
 // signal.c
 
@@ -171,17 +180,17 @@ int		ft_handle_var_exit_status(char **valad, t_vlim *varlim);
 
 // expand.c
 
-int		ft_not_only_spaces(char *str);
+int		ft_noemp(char *str);
 void	ft_remove_first_empty_tokens(t_shell *shell);
 void	ft_remove_empty_tokens(t_shell *shell);
 int		ft_expand(t_shell *shell);
 
 // heredoc
 
-void ft_free_lines(t_line *lines);
-t_hdcontext *ft_get_hd_ctx(t_hdcontext *set);
-int ft_heredoc(char *lim, t_shell *shell);
-int ft_handle_heredocs(t_shell *shell);
+void	ft_free_lines(t_line *lines);
+t_ctxt	*ft_get_hd_ctx(t_ctxt *set);
+int		ft_heredoc(char *lim, t_shell *shell);
+int		ft_handle_heredocs(t_shell *shell);
 
 // initshell.c
 
@@ -236,104 +245,93 @@ void	ft_free_token(t_token *token);
 char	*ft_truncate(char *str, int start, int end);
 char	*ft_getenv(char *var, char **env);
 void	ft_free_lines(t_line *lines);
-int	ft_add_line(t_line **lines, char *value);
+int		ft_add_line(t_line **lines, char *value);
 
 // utils2.c
 
-t_hdcontext	*ft_get_hd_ctx(t_hdcontext *set);
-void ft_free_heredoc_context(t_hdcontext *hdctx);
+t_ctxt	*ft_get_hd_ctx(t_ctxt *set);
+void	ft_free_heredoc_context(t_ctxt *hdctx);
 
 //  EXEC
 
 // exec.c
 
-int ft_create_std_dup(t_savedfds *fds);
-int ft_restore_savedfd(t_savedfds *fds);
-int ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
-int ft_exec (t_shell *shell);
+int		ft_create_std_dup(t_savedfds *fds);
+int		ft_restore_savedfd(t_savedfds *fds);
+int		ft_exec_simple_builtin(t_command *com, t_shell *shell, t_savedfds *fds);
+int		ft_exec(t_shell *shell);
 
 // exec2.c
 
-int ft_has_output_redir(t_redir *redir);
-int ft_simple_builtin(t_shell *shell, t_savedfds *fds);
-void ft_init_exec(t_exec *exec, t_shell *shell);
-void ft_child_redir(t_shell *shell, t_exec *exec, t_savedfds *fds);
+int		ft_has_output_redir(t_redir *redir);
+int		ft_simple_builtin(t_shell *shell, t_savedfds *fds);
+void	ft_init_exec(t_exec *exec, t_shell *shell);
+void	ft_child_redir(t_shell *shell, t_exec *exec, t_savedfds *fds);
 
 // exec3.c
 
-int ft_create_std_dup(t_savedfds *fds);
-void ft_close_savedfd(t_savedfds *fds);
-int ft_restore_savedfd(t_savedfds *fds);
-int ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
-void ft_parent(t_exec *exec, int fd);
+int		ft_create_std_dup(t_savedfds *fds);
+void	ft_close_savedfd(t_savedfds *fds);
+int		ft_restore_savedfd(t_savedfds *fds);
+int		ft_exec_simple_builtin(t_command *com, t_shell *shell, t_savedfds *fds);
+void	ft_parent(t_exec *exec, int fd);
 
 // utils.c
 
-void ft_close_fd(int *fd);
-int ft_is_builtin(t_command *command);
-int ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
-int ft_wait_pids(t_shell *shell);
-int ft_nb_commands(t_shell *shell);
-char *ft_get_path (t_command *command, t_shell *shell);
-void ft_close_command_heredoc(t_command *command);
-void ft_close_heredoc(t_shell *shell);
+void	ft_close_fd(int *fd);
+int		ft_is_builtin(t_command *command);
+int		ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
+int		ft_wait_pids(t_shell *shell);
+int		ft_nb_commands(t_shell *shell);
 
-// redirout.c
+// utils2.c
 
-int ft_last_redir_in(t_redir *redir);
-int ft_last_redir_out(t_redir *redir);
-int ft_redirout(t_redir *redir);
-int ft_redir(t_redir *redir);
+char	*ft_create_path(char *path, char *cmd);
+void	ft_free_split_path(char **tab);
+char	*ft_get_path(t_command *command, t_shell *shell);
+void	ft_close_command_heredoc(t_command *command);
+void	ft_close_heredoc(t_shell *shell);
 
+// redir.c
 
-// handleredir.c
-
-// int ft_handle_redir(t_command *command);
-
-
-
-
-
-
-
-
-
-
-
+int		ft_last_redir_in(t_redir *redir);
+int		ft_last_redir_out(t_redir *redir);
+int		ft_redirout(t_redir *redir);
+int		ft_redir(t_redir *redir);
 
 // BUILTIN
 
 // cd.c
 
-int	ft_set_env_value(char *value, char *var, t_shell *shell);
-int ft_cd(t_command *command, t_shell *shell);
+int		ft_set_env_value(char *value, char *var, t_shell *shell);
+int		ft_cd(t_command *command, t_shell *shell);
 
 // echo.c
 
-int ft_echo(t_command *command);
+int		ft_echo(t_command *command);
 
 // env.c
 
-int ft_env(t_command *command, t_shell *shell);
+int		ft_env(t_command *command, t_shell *shell);
 
 // exit.c
 
-int ft_exit(t_command *command, t_shell *shell, t_savedfds *fds);
+int		ft_exit(t_command *command, t_shell *shell, t_savedfds *fds);
 
 // export
 
-int ft_export(t_command *command, t_shell *shell);
+int		ft_export(t_command *command, t_shell *shell);
 
 // pwd.c
 
-int ft_pwd(t_command *command);
+int		ft_pwd(t_command *command);
 
 // unset.c
 
-int ft_unset(t_command *command, t_shell *shell);
+int		ft_unset(t_command *command, t_shell *shell);
 
 // utils.c
 
-int ft_add_env_value(char *value, t_shell *shell);
+int		ft_add_env_value(char *value, t_shell *shell);
 
 #endif

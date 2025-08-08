@@ -6,13 +6,13 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:23:38 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 11:19:02 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 16:32:33 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_not_only_spaces(char *str)
+int	ft_noemp(char *str)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ void	ft_remove_first_empty_tokens(t_shell *shell)
 	if (!shell->tokens)
 		return ;
 	while (ft_strncmp(shell->tokens->value, "", 1) == 0
-		|| ft_not_only_spaces(shell->tokens->value) != 0)
+		|| ft_noemp(shell->tokens->value) != 0)
 	{
 		temp = shell->tokens;
 		shell->tokens = shell->tokens->next;
@@ -58,8 +58,7 @@ void	ft_remove_empty_tokens(t_shell *shell)
 		temp = token->next;
 		if (!temp)
 			return ;
-		if ((ft_strncmp(temp->value, "", 1) == 0
-			|| ft_not_only_spaces(temp->value) != 0)
+		if ((ft_strncmp(temp->value, "", 1) == 0 || ft_noemp(temp->value) != 0)
 			&& token->type != REDIR_HEREDOC)
 		{
 			token->next = temp->next;

@@ -6,13 +6,13 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:53:18 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 14:38:52 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/08 15:17:33 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_simple_builtin(t_shell *shell, t_savedfds *fds)
+int	ft_simple_builtin(t_shell *shell, t_savedfds *fds)
 {
 	if (ft_exec_simple_builtin(shell->commands, shell, fds) != 0)
 	{
@@ -28,7 +28,7 @@ int ft_simple_builtin(t_shell *shell, t_savedfds *fds)
 	return (0);
 }
 
-void ft_init_exec(t_exec *exec, t_shell *shell)
+void	ft_init_exec(t_exec *exec, t_shell *shell)
 {
 	exec->nbcom = ft_nb_commands(shell);
 	exec->path = NULL;
@@ -38,43 +38,43 @@ void ft_init_exec(t_exec *exec, t_shell *shell)
 	exec->command = shell->commands;
 }
 
-int ft_has_output_redir(t_redir *redir)
+int	ft_has_output_redir(t_redir *redir)
 {
 	while (redir)
-    {
-        if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
-            return (0);
-        redir = redir->next;
-    }
-    return (1);
+	{
+		if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
+			return (0);
+		redir = redir->next;
+	}
+	return (1);
 }
 
-int ft_has_input_redir(t_redir *redir)
+int	ft_has_input_redir(t_redir *redir)
 {
 	while (redir)
-    {
-        if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
-            return (0);
-        redir = redir->next;
-    }
-    return (1);
+	{
+		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
+			return (0);
+		redir = redir->next;
+	}
+	return (1);
 }
 
-void ft_child_redir(t_shell *shell, t_exec *exec, t_savedfds *fds)
+void	ft_child_redir(t_shell *shell, t_exec *exec, t_savedfds *fds)
 {
-    ft_signal_handler(CHILD);
-    ft_close_savedfd(fds);
-    if (ft_redir(exec->command->redir) != 0)
-    {
-        g_signal = 2;
-        ft_close_heredoc(shell);
-        ft_clean_shell(shell);
-        exit (2);
-    }
-    if (exec->i != 0)
-    {
-        if (ft_has_input_redir(exec->command->redir) != 0)
-            dup2(exec->prevfd , STDIN_FILENO);
-        ft_close_fd(&exec->prevfd);
-    }
+	ft_signal_handler(CHILD);
+	ft_close_savedfd(fds);
+	if (ft_redir(exec->command->redir) != 0)
+	{
+		g_signal = 2;
+		ft_close_heredoc(shell);
+		ft_clean_shell(shell);
+		exit (2);
+	}
+	if (exec->i != 0)
+	{
+		if (ft_has_input_redir(exec->command->redir) != 0)
+			dup2(exec->prevfd, STDIN_FILENO);
+		ft_close_fd(&exec->prevfd);
+	}
 }
