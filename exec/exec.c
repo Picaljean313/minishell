@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 20:45:38 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 19:22:47 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void	ft_child(t_shell *shell, t_exec *exec, t_savedfds *fds)
 	ft_close_savedfd(fds);
 	if (ft_is_builtin(exec->command) == 0)
 	{
-		if (ft_exec_builtin (exec->command, shell, fds) != 0)
-			g_signal = 2;
-		else
-			g_signal = 0;
+		if (ft_exec_builtin (exec->command, shell, fds, 0) != 0)
+			g_signal = 1;
 		ft_close_heredoc(shell);
 		ft_clean_shell(shell);
 		free(exec),
@@ -100,7 +98,7 @@ int	ft_exec_commands(t_shell *shell, t_exec *exec, t_savedfds *fds)
 	{
 		if (ft_fork(shell, exec, fds) != 0)
 			return (1);
-	exec->i++;
+		exec->i++;
 		exec->command = exec->command->next;
 	}
 	if (ft_wait_pids(shell) != 0)

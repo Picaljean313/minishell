@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:53:56 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 20:23:06 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 18:51:17 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_exec_simple_builtin(t_command *command, t_shell *shell, t_savedfds *fds)
 		return (-1);
 	if ( res == 1)
 		return (1);
-	if (ft_exec_builtin (command, shell, fds) != 0)
+	if (ft_exec_builtin(command, shell, fds, 1) != 0)
 		return (1);
 	return (0);
 }

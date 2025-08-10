@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 17:02:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 18:44:12 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 18:47:57 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_echo(t_command *command)
 	if (!command->args || ft_strncmp(command->args[0], "echo", 5) != 0)
 		return (1);
 	if (!command->args[1])
-		return (ft_putstr_fd("\n", STDOUT_FILENO), 0);
+		return (ft_putstr_fd("\n", STDOUT_FILENO), g_signal = 0, 0);
 	i = 1;
 	while (ft_strncmp(command->args[i], "-n", 3) == 0)
 		i++;
@@ -45,5 +45,5 @@ int	ft_echo(t_command *command)
 		if (ft_strncmp(command->args[1], "-n", 3) != 0)
 			ft_putstr_fd("\n", STDOUT_FILENO);
 	}
-	return (0);
+	return (g_signal = 0, 0);
 }

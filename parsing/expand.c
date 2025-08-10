@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:23:38 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 21:10:25 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 18:20:22 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_expand(t_shell *shell)
 	{
 		if (!token->value)
 			return (1);
-		if (token->type == REDIR_HEREDOC)
+		if (token->type == REDIR_HEREDOC && token->next)
 		{
 			token = token->next;
 			if (ft_remove_quotes(&token->value) != 0)
@@ -96,5 +96,5 @@ int	ft_expand(t_shell *shell)
 		}
 		token = token->next;
 	}
-	return (ft_remove_empty_tokens(shell), 0);
+	return (0);
 }

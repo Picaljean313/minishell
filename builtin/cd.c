@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:05:58 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 20:30:36 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 18:47:04 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_cd(t_command *command, t_shell *shell)
 	if (!newpath)
 		return (free(oldcwd), 1);
 	if (chdir(newpath) == -1)
-		return (free(oldcwd), free(newpath), perror("chdir"), 0);
+		return (free(oldcwd), free(newpath), perror("chdir"), 1);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (free(oldcwd), free(newpath), perror("getcwd"), 1);
@@ -86,7 +86,7 @@ int	ft_cd(t_command *command, t_shell *shell)
 		return (free(cwd), free(newpath), free(oldcwd), 1);
 	if (ft_set_env_value(cwd, "PWD=", shell) != 0)
 		return (free(cwd), free(newpath), free(oldcwd), 1);
-	return (free(cwd), free(newpath), free(oldcwd), 0);
+	return (free(cwd), free(newpath), free(oldcwd), g_signal = 0, 0);
 }
 
 // pour voir le path :

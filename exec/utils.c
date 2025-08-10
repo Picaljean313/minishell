@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 14:29:40 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 21:00:51 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 17:26:19 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_is_builtin(t_command *command)
 	return (1);
 }
 
-int	ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds)
+int	ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds, int sb)
 {
 	if (!command->args)
 		return (2);
@@ -56,7 +56,7 @@ int	ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds)
 		if (ft_env(command, shell) != 0)
 			return (1);
 	if (ft_strncmp(command->args[0], "exit", 5) == 0)
-		if (ft_exit(command, shell, fds) != 0)
+		if (ft_exit(command, shell, fds, sb) != 0)
 			return (1);
 	if (ft_strncmp(command->args[0], "export", 7) == 0)
 		if (ft_export(command, shell) != 0)

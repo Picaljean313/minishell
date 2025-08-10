@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:46 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 15:04:00 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 19:40:27 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ int	ft_unset(t_command *command, t_shell *shell)
 	if (!command->args || ft_strncmp(command->args[0], "unset", 6) != 0)
 		return (1);
 	if (!command->args[1])
-		return (0);
+		return (g_signal = 0, 0);
 	i = 1;
 	while (command->args[i])
 	{
 		ft_unset_env_var(command->args[i], shell);
 		i++;
 	}
-	return (0);
+	return (g_signal = 0, 0);
 }

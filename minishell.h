@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 20:59:39 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 20:23:02 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ void	ft_parent(t_exec *exec, int fd);
 
 void	ft_close_fd(int *fd);
 int		ft_is_builtin(t_command *command);
-int		ft_exec_builtin(t_command *command, t_shell *shell, t_savedfds *fds);
+int		ft_exec_builtin(t_command *com, t_shell *sh, t_savedfds *fds, int sb);
 int		ft_wait_pids(t_shell *shell);
 int		ft_nb_commands(t_shell *shell);
 
@@ -322,7 +322,7 @@ int		ft_env(t_command *command, t_shell *shell);
 
 // exit.c
 
-int		ft_exit(t_command *command, t_shell *shell, t_savedfds *fds);
+int		ft_exit(t_command *command, t_shell *shell, t_savedfds *fds, int sb);
 
 // export
 

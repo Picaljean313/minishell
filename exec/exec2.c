@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:53:18 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 20:20:44 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 19:24:13 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	ft_simple_builtin(t_shell *shell, t_savedfds *fds)
 			return (g_signal = 1, 0);
 		return (1);
 	}
-	g_signal = 0;
 	ft_close_heredoc(shell);
 	if (ft_restore_savedfd(fds) != 0)
 		return (1);
@@ -71,10 +70,10 @@ void	ft_child_redir(t_shell *shell, t_exec *exec, t_savedfds *fds)
 	ft_close_savedfd(fds);
 	if (ft_redir(exec->command->redir) != 0)
 	{
-		g_signal = 2;
+		g_signal = 1;
 		ft_close_heredoc(shell);
 		ft_clean_shell(shell);
-		exit (2);
+		exit (1);
 	}
 	if (exec->i != 0)
 	{

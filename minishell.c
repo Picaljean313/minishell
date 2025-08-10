@@ -6,19 +6,20 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 20:19:08 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 19:18:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
+volatile sig_atomic_t	g_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 	int		res;
 
+	g_signal = 0;
 	if (ft_check_params(argc, argv, envp) != 0)
 		return (1);
 	if (ft_init_shell(&shell, envp) != 0)
