@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:58:06 by anony             #+#    #+#             */
-/*   Updated: 2025/08/06 18:45:14 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 20:34:07 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,38 @@ char	**ft_set_env(char **env)
 	return (env_copy);
 }
 
+char	**ft_set_export(char **env)
+{
+	int		i;
+	int		j;
+	char	**env_copy;
+
+	i = 0;
+	while (env[i])
+		i++;
+	env_copy = malloc ((i + 1) * sizeof(char *));
+	if (!env_copy)
+		return (NULL);
+	j = 0;
+	while (j < i)
+	{
+		env_copy[j] = ft_create_export_var(env[j]);
+		if (!env_copy[j])
+			return (NULL);
+		j++;
+	}
+	env_copy[j] = NULL;
+	if (ft_set_shlvl(env_copy) != 0)
+		return (NULL);
+	return (env_copy);
+}
+
 int	ft_init_shell(t_shell *shell, char **envp)
 {
 	shell->env = ft_set_env(envp);
 	if (!shell->env)
 		return (1);
+	shell->export = ft_set_export(envp);
 	shell->input = NULL;
 	shell->exitcode = 0;
 	shell->tokens = NULL;

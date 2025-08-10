@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:22 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 17:37:33 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 22:53:29 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,18 @@ int	ft_check_var(char *var)
 	int	i;
 
 	if (!ft_strchr(var, '='))
-		return (1);
+	{
+		if (!(ft_isalpha(var[0]) == 1 || var[0] == '_'))
+			return (1);
+		i = 1;
+		while (var[i])
+		{
+			if (!(var[i] == '_' || ft_isalnum(var[i]) == 1))
+				return (1);
+			i++;
+		}
+		return (0);
+	}
 	if (!(ft_isalpha(var[0]) == 1 || var[0] == '_'))
 		return (1);
 	i = 1;
@@ -52,31 +63,87 @@ char	*ft_get_var(char *str)
 	return (var);
 }
 
+void	ft_wrong_var(int *fail)
+{
+	*fail = 1;
+	g_signal = 1;
+	ft_putstr_fd("Wrong argument\n", STDERR_FILENO);
+}
+
+int	ft_export_without_arg(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	if (!shell->export)
+		return (g_signal = 0, 0);
+	while (shell->export[i])
+	{
+		ft_putstr_fd(shell->export[i], STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		i++;
+	}
+	return (g_signal = 0, 0);
+}
+
 int	ft_export(t_command *com, t_shell *shell)
 {
 	int		i;
-	char	*var;
-	char	*value;
+	int		fail;
 
 	if (!com->args || ft_strncmp(com->args[0], "export", 7) != 0)
 		return (1);
+	if (!com->args[1])
+		return (ft_export_without_arg(shell));
 	i = 0;
+	fail = 0;
 	while (com->args[++i])
 	{
 		if (ft_check_var(com->args[i]) != 0)
-		{
-			g_signal = 1;
-			return (ft_putstr_fd("Wrong argument\n", STDERR_FILENO), 0);
-		}
+			ft_wrong_var(&fail);
 		else
 		{
-			value = ft_strdup(ft_strchr(com->args[i], '=') + 1);
-			var = ft_get_var(com->args[i]);
-			if (ft_set_env_value(value, var, shell) != 0)
-				return (free(value), free(var), 1);
-			free(value);
-			free(var);
+			if (!ft_strchr(com->args[i], '='))
+				if (ft_set_export_no_value(com->args[i], shell) != 0)
+					return (1);
+			if (ft_strchr(com->args[i], '='))
+				if (ft_set_export_value(com->args[i], shell) != 0)
+					return (1);
 		}
 	}
+	g_signal = fail;
 	return (0);
 }
+
+
+				// if (ft_replace_env_var(com, shell, i) != 0)
+				// 	return (1);
+
+// int	ft_export(t_command *com, t_shell *shell)
+// {
+// 	int		i;
+// 	char	*var;
+// 	char	*value;
+
+// 	if (!com->args || ft_strncmp(com->args[0], "export", 7) != 0)
+// 		return (1);
+// 	i = 0;
+// 	while (com->args[++i])
+// 	{
+// 		if (ft_check_var(com->args[i]) != 0)
+// 		{
+// 			g_signal = 1;
+// 			return (ft_putstr_fd("Wrong argument\n", STDERR_FILENO), 1);
+// 		}
+// 		else
+// 		{
+// 			value = ft_strdup(ft_strchr(com->args[i], '=') + 1);
+// 			var = ft_get_var(com->args[i]);
+// 			if (ft_set_env_value(value, var, shell) != 0)
+// 				return (free(value), free(var), 1);
+// 			free(value);
+// 			free(var);
+// 		}
+// 	}
+// 	return (0);
+// }

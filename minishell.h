@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 20:23:02 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/10 23:13:21 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_shell
 {
 	char		*input;
 	char		**env;
+	char		**export;
 	t_token		*tokens;
 	t_command	*commands;
 	int			exitcode;
@@ -145,7 +146,7 @@ int		ft_check_input(char *input);
 
 // clean.c
 
-void	ft_free_env(t_shell *shell);
+void	ft_free_env_and_export(t_shell *shell);
 void	ft_free_input(t_shell *shell);
 void	ft_free_tokens(t_shell *shell);
 void	ft_clean_line(t_shell *shell);
@@ -326,6 +327,8 @@ int		ft_exit(t_command *command, t_shell *shell, t_savedfds *fds, int sb);
 
 // export
 
+char	*ft_get_var(char *str);
+char	*ft_create_export_var(char *value);
 int		ft_export(t_command *command, t_shell *shell);
 
 // pwd.c
@@ -338,6 +341,12 @@ int		ft_unset(t_command *command, t_shell *shell);
 
 // utils.c
 
+int		ft_replace_env_var(char *arg, t_shell *shell);
 int		ft_add_env_value(char *value, t_shell *shell);
+
+// utils2.c
+
+int		ft_set_export_no_value(char *var, t_shell *shell);
+int		ft_set_export_value(char *arg, t_shell *shell);
 
 #endif
