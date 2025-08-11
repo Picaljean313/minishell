@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/11 19:55:59 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 20:35:40 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_exit(t_command *command, t_shell *shell, t_savedfds *fds, int sb)
 	else if (command->args[1] && command->args[2])
 	{
 		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
-		return (g_signal = 1, 1);
+		return (g_signal = 1, 0);
 	}
 	else if (command->args[1] && ft_is_numeric(command->args[1]) == 0)
 	{
