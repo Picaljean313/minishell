@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 13:52:09 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 19:18:06 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 18:11:03 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_signal_handler(MAIN);
 		res = ft_parsing(&shell);
 		if (res == 2)
-			return (ft_clean_shell(&shell), 2);
+			return (ft_clean_shell(&shell), ft_putstr_fd("exit\n", 1), 2);
 		if (res == 1)
 		{
 			ft_clean_line(&shell);

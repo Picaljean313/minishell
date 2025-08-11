@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:35:18 by anony             #+#    #+#             */
-/*   Updated: 2025/08/11 15:09:58 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 18:33:04 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ int	ft_set_export_value(char *arg, t_shell *shell)
 			return (free(value), 0);
 		}
 	}
-	if (ft_add_export_value(value, shell) != 0)
+	if (ft_add_export_value(ft_create_export_var(arg), shell) != 0)
 		return (free(value), 1);
 	if (ft_replace_env_var(arg, shell) != 0)
 		return (free(value), 1);
-	return (0);
+	return (free(value), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/11 13:51:49 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 20:17:58 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	ft_exec_child(t_shell *shell, t_exec *exec)
 		free(exec);
 		exit(127);
 	}
+	if (exec->command->args[0] && exec->command->args[0][0] == '\0')
+		return (ft_clean_exec_child(shell, exec), exit(0));
 	if (execve(exec->path, exec->command->args, shell->env) == -1)
 	{
 		perror("execve");

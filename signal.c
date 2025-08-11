@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:23:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 21:07:11 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 18:18:06 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_signal_handler(t_context context)
 	{
 		signal(SIGINT, ft_sigint_main);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 	}
 	else if (context == CHILD)
 	{

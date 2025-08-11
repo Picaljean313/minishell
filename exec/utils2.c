@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:38:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/11 15:36:51 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 20:18:24 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,15 @@ char	*ft_case_point(t_exec *ex)
 
 char	*ft_set_abs_rel_path(t_exec *ex, t_shell *shell)
 {
+	int	i;
+
 	if (!ex->command || !ex->command->args || !ex->command->args[0]
 		|| (ex->command->args[0][0] != '/' && ex->command->args[0][0] != '.'))
 		return (NULL);
-	if (ex->command->args[0][0] == '/' && !ex->command->args[0][1])
+	i = 0;
+	while (ex->command->args[0][i] == '/')
+		i++;
+	if (i > 0 && !ex->command->args[0][i])
 	{
 		ft_putstr_fd("/: Is a directory\n", STDERR_FILENO);
 		g_signal = 126;
@@ -56,8 +61,8 @@ char	*ft_set_abs_rel_path(t_exec *ex, t_shell *shell)
 		exit(126);
 		return (NULL);
 	}
-	if (ex->command->args[0][0] == '/')
-		return (ft_strdup(ex->command->args[0]));
+	if (i > 0 && ex->command->args[0][i])
+		return (ft_strdup(ex->command->args[0] + i - 1));
 	if (ex->command->args[0][0] == '.')
 		return (ft_case_point(ex));
 	return (NULL);

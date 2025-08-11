@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/11 15:03:16 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 18:04:26 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,10 @@ void	ft_close_heredoc(t_shell *shell);
 int		ft_last_redir_out(t_redir *redir);
 int		ft_last_redir_in(t_redir *redir);
 void	ft_print_after_signal(int status, int *newline, int *coredump);
+
+// utils4.c
+
+void	ft_clean_exec_child(t_shell *shell, t_exec *exec);
 
 // redir.c
 
