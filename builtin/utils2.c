@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:35:18 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 23:52:21 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:09:58 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ int	ft_set_export_no_value(char *var, t_shell *shell)
 {
 	int		i;
 	char	*value;
-    int     len;
+	int		len;
 
 	if (!var)
 		return (1);
 	value = ft_strjoin("declare -x ", var);
 	if (!value)
 		return (1);
-    len = (int)ft_strlen(value);
+	len = (int)ft_strlen(value);
 	i = 0;
 	while (shell->export[i])
 	{
 		if (ft_strncmp(shell->export[i], value, len) == 0
-            && (!shell->export[i][len]
-            || shell->export[i][len] == '='))
-            return (free(value), 0);
+			&& (!shell->export[i][len]
+			|| shell->export[i][len] == '='))
+			return (free(value), 0);
 		i++;
 	}
 	if (ft_add_export_value(value, shell) != 0)
@@ -90,48 +90,48 @@ char	*ft_get_export_var(char *str)
 	return (var);
 }
 
-char *ft_get_value(char *arg)
+char	*ft_get_value(char *arg)
 {
 	char	*var;
-    char    *value;
+	char	*value;
 
 	if (!arg)
 		return (NULL);
-    var = ft_get_export_var(arg);
-    if (!var)
-        return (NULL);
-    value = ft_strjoin("declare -x ", var);
-    free(var);
-    if (!value)
-        return (NULL);
-    return (value);
+	var = ft_get_export_var(arg);
+	if (!var)
+		return (NULL);
+	value = ft_strjoin("declare -x ", var);
+	free(var);
+	if (!value)
+		return (NULL);
+	return (value);
 }
 
 int	ft_set_export_value(char *arg, t_shell *shell)
 {
-    char    *value;
-    int     i;
+	char	*value;
+	int		i;
 
-    value = ft_get_value(arg);
-    if (!value)
-        return (1);
-    i = -1;
+	value = ft_get_value(arg);
+	if (!value)
+		return (1);
+	i = -1;
 	while (shell->export[++i])
 	{
 		if (ft_strncmp(shell->export[i], value, (int)ft_strlen(value)) == 0
-            && (!shell->export[i][(int)ft_strlen(value)]
-            || shell->export[i][(int)ft_strlen(value)] == '='))
-            {
-                free(shell->export[i]);
-                shell->export[i] = ft_create_export_var(arg);
-                if (ft_replace_env_var(arg, shell) != 0)
-                    return (free(value), 1);
-                return (free(value), 0);
-            }
+			&& (!shell->export[i][(int)ft_strlen(value)]
+			|| shell->export[i][(int)ft_strlen(value)] == '='))
+		{
+			free(shell->export[i]);
+			shell->export[i] = ft_create_export_var(arg);
+			if (ft_replace_env_var(arg, shell) != 0)
+				return (free(value), 1);
+			return (free(value), 0);
+		}
 	}
 	if (ft_add_export_value(value, shell) != 0)
 		return (free(value), 1);
-    if (ft_replace_env_var(arg, shell) != 0)
-        return (free(value), 1);
-    return (0);
+	if (ft_replace_env_var(arg, shell) != 0)
+		return (free(value), 1);
+	return (0);
 }

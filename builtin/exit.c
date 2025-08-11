@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 18:08:57 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 14:59:25 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,29 @@ int	ft_is_numeric(char *value)
 	return (0);
 }
 
-int	ft_is_too_long(char *value)
+int	ft_is_too_long(char *val)
 {
-	int start;
-	int end;
-	char *nb;
+	int		start;
+	int		end;
+	char	*nb;
 
 	start = 0;
-	while (value[start] == ' ' || (value[start] >= '\t' && value[start] <= '\r'))
+	while (val[start] == ' ' || (val[start] >= '\t' && val[start] <= '\r'))
 		start++;
 	end = start;
-	while (ft_isdigit(value[end]) == 1)
+	while (ft_isdigit(val[end]) == 1)
 		end++;
 	end--;
 	if (end - start > 18)
 		return (1);
-	nb = ft_truncate(value, start + 1, end);
-	if (ft_atoi(nb) > 223372036854775807 && value[start] == '9')
+	nb = ft_truncate(val, start + 1, end);
+	if (ft_atoi(nb) > 223372036854775807 && val[start] == '9')
 		return (free(nb), 1);
 	free(nb);
 	return (0);
 }
 
-void	ft_exit_num_fail()
+void	ft_exit_num_fail(void)
 {
 	g_signal = 1;
 	ft_putstr_fd("exit: numeric argument required\n", STDERR_FILENO);
@@ -69,7 +69,7 @@ int	ft_exit(t_command *command, t_shell *shell, t_savedfds *fds, int sb)
 	if (!command->args[1])
 		g_signal = 0;
 	else if (command->args[1] && (ft_is_numeric(command->args[1]) != 0
-		|| ft_is_too_long(command->args[1]) != 0))
+			|| ft_is_too_long(command->args[1]) != 0))
 		ft_exit_num_fail();
 	else if (command->args[1] && command->args[2])
 	{

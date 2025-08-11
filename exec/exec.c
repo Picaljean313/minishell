@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:27:16 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 19:22:47 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 13:51:49 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exec_child(t_shell *shell, t_exec *exec)
 {
-	exec->path = ft_get_path(exec->command, shell);
+	exec->path = ft_get_path(exec, shell);
 	if (!exec->path)
 	{
 		ft_putstr_fd("Command not found\n", STDERR_FILENO);

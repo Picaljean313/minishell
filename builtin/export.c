@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:06:22 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 22:53:29 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:05:26 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ int	ft_export(t_command *com, t_shell *shell)
 	g_signal = fail;
 	return (0);
 }
-
 
 				// if (ft_replace_env_var(com, shell, i) != 0)
 				// 	return (1);

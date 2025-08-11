@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:20:21 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 20:58:41 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 13:34:27 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,33 @@ void	ft_print_after_signal(int status, int *newline, int *coredump)
 	}
 	else if (WIFEXITED(status))
 		g_signal = WEXITSTATUS(status);
+}
+
+char	*ft_create_path(char *path, char *cmd)
+{
+	char	*temp;
+	char	*cmdpath;
+
+	temp = ft_strjoin(path, "/");
+	if (!temp)
+		return (NULL);
+	cmdpath = ft_strjoin(temp, cmd);
+	free(temp);
+	return (cmdpath);
+}
+
+void	ft_free_split_path(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return ;
 }

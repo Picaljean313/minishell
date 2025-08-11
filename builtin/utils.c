@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 17:59:46 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 22:31:14 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:05:08 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ void	ft_fill_export_var(char *newval, char *value, int i, int len)
 char	*ft_create_export_var(char *value)
 {
 	char	*newval;
-	int i;
-	int	len;
-	char *suffix = "declare -x ";
+	int		i;
+	int		len;
+	char	*suffix;
 
+	suffix = "declare -x ";
 	len = (int)ft_strlen(value) + 14;
 	newval = malloc(len * sizeof(char));
 	if (!newval)

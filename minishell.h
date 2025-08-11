@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:00:19 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 23:13:21 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:03:16 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ int		ft_nb_commands(t_shell *shell);
 
 char	*ft_create_path(char *path, char *cmd);
 void	ft_free_split_path(char **tab);
-char	*ft_get_path(t_command *command, t_shell *shell);
+char	*ft_get_path(t_exec *exec, t_shell *shell);
 void	ft_close_command_heredoc(t_command *command);
 void	ft_close_heredoc(t_shell *shell);
 
@@ -348,5 +348,6 @@ int		ft_add_env_value(char *value, t_shell *shell);
 
 int		ft_set_export_no_value(char *var, t_shell *shell);
 int		ft_set_export_value(char *arg, t_shell *shell);
+int		ft_check_unset_var(char *var);
 
 #endif

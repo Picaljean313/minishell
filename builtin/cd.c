@@ -6,7 +6,7 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:05:58 by anony             #+#    #+#             */
-/*   Updated: 2025/08/10 23:53:38 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 14:52:44 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_cd(t_command *command, t_shell *shell)
 	if (!newpath)
 		return (free(oldcwd), 1);
 	if (chdir(newpath) == -1)
-		return (free(oldcwd), free(newpath), perror("chdir"), 1);
+		return (free(oldcwd), free(newpath), perror("chdir"), g_signal = 1, 0);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (free(oldcwd), free(newpath), perror("getcwd"), 1);

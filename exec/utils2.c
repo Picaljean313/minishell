@@ -6,49 +6,118 @@
 /*   By: anony <anony@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 15:38:44 by anony             #+#    #+#             */
-/*   Updated: 2025/08/08 16:03:49 by anony            ###   ########.fr       */
+/*   Updated: 2025/08/11 15:36:51 by anony            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_create_path(char *path, char *cmd)
+char	*ft_case_point(t_exec *ex)
 {
-	char	*temp;
-	char	*cmdpath;
+	char	*pwd;
+	char	*value;
+	char	*path;
 
-	temp = ft_strjoin(path, "/");
-	if (!temp)
-		return (NULL);
-	cmdpath = ft_strjoin(temp, cmd);
-	free(temp);
-	return (cmdpath);
-}
-
-void	ft_free_split_path(char **tab)
-{
-	int	i;
-
-	if (!tab)
-		return ;
-	i = 0;
-	while (tab[i])
+	if (ex->command->args[0][1] == '/')
 	{
-		free(tab[i]);
-		i++;
+		pwd = getcwd(NULL, 0);
+		if (!pwd)
+			return (NULL);
+		value = ft_strjoin(pwd, (ex->command->args[0] + 1));
+		free(pwd);
+		return (value);
 	}
-	free(tab);
-	return ;
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (NULL);
+	value = ft_strjoin(pwd, "/");
+	free(pwd);
+	if (!value)
+		return (NULL);
+	path = ft_strjoin(value, ex->command->args[0]);
+	free(value);
+	if (!path)
+		return (NULL);
+	return (path);
 }
 
-char	*ft_get_path(t_command *command, t_shell *shell)
+char	*ft_set_abs_rel_path(t_exec *ex, t_shell *shell)
+{
+	if (!ex->command || !ex->command->args || !ex->command->args[0]
+		|| (ex->command->args[0][0] != '/' && ex->command->args[0][0] != '.'))
+		return (NULL);
+	if (ex->command->args[0][0] == '/' && !ex->command->args[0][1])
+	{
+		ft_putstr_fd("/: Is a directory\n", STDERR_FILENO);
+		g_signal = 126;
+		ft_close_heredoc(shell);
+		ft_clean_shell(shell);
+		free(ex);
+		exit(126);
+		return (NULL);
+	}
+	if (ex->command->args[0][0] == '/')
+		return (ft_strdup(ex->command->args[0]));
+	if (ex->command->args[0][0] == '.')
+		return (ft_case_point(ex));
+	return (NULL);
+}
+
+// char	*ft_set_abs_rel_path(t_exec *ex, t_shell *shell)
+// {
+// 	char *pwd;
+// 	char *value;
+
+// 	if (!ex->command || !ex->command->args || !ex->command->args[0]
+// 		|| (ex->command->args[0][0] != '/' && ex->command->args[0][0] != '.'))
+// 		return (NULL);
+// 	if (ex->command->args[0][0] == '/' && !ex->command->args[0][1])
+// 	{
+// 		ft_putstr_fd("/: Is a directory\n", STDERR_FILENO);
+// 		g_signal = 126;
+// 		ft_close_heredoc(shell);
+// 		ft_clean_shell(shell);
+// 		free(ex);
+// 		exit(126);
+// 		return (NULL);
+// 	}
+// 	if (ex->command->args[0][0] == '/')
+// 		return (ft_strdup(ex->command->args[0]));
+// 	if (ex->command->args[0][0] == '.' && ex->command->args[0][1] == '/')
+// 	{
+// 		pwd = getcwd(NULL, 0);
+// 		if (!pwd)
+// 			return (NULL);
+// 		value = ft_strjoin(pwd, (ex->command->args[0] + 1));
+// 		free(pwd);
+// 		return (value);
+// 	}
+// 	if (ex->command->args[0][0] == '.')
+// 	{
+// 		pwd = getcwd(NULL, 0);
+// 		if (!pwd)
+// 			return (NULL);
+// 		value = ft_strjoin(pwd, "/");
+// 		free(pwd);
+// 		if (!value)
+// 			return (NULL);
+// 		pwd = ft_strjoin(value, ex->command->args[0]);
+// 		free(value);
+// 		if (!pwd)
+// 			return (NULL);
+// 		return (pwd);
+// 	}
+// 	return (NULL);
+// }
+
+char	*ft_get_path(t_exec *ex, t_shell *shell)
 {
 	t_exut	vars;
 
-	if (!command || !command->args || !command->args[0])
+	if (!ex->command || !ex->command->args || !ex->command->args[0])
 		return (NULL);
-	if (command->args[0][0] == '/' && command->args[0][1])
-		return (ft_strdup(command->args[0]));
+	if (ex->command->args[0][0] == '/' || ex->command->args[0][0] == '.')
+		return (ft_set_abs_rel_path(ex, shell));
 	vars.path = ft_getenv("PATH", shell->env);
 	if (!vars.path)
 		return (NULL);
@@ -56,7 +125,7 @@ char	*ft_get_path(t_command *command, t_shell *shell)
 	if (!vars.splitpath)
 		return (free(vars.path), NULL);
 	free(vars.path);
-	vars.cmd = command->args[0];
+	vars.cmd = ex->command->args[0];
 	vars.i = 0;
 	while (vars.splitpath[vars.i])
 	{
